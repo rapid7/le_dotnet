@@ -1,0 +1,9 @@
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesLog4net.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesLog4net.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\log4net.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesCore.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\log4net.xml
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\LogentriesLog4net.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\LogentriesLog4net.pdb

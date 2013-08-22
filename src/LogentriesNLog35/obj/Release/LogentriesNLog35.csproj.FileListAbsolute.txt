@@ -1,0 +1,9 @@
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\LogentriesNLog.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\LogentriesNLog.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\NLog.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\LogentriesCore.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\bin\Release\NLog.xml
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\obj\Release\LogentriesNLog.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\obj\Release\LogentriesNLog.pdb

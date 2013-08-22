@@ -1,0 +1,12 @@
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\bin\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\bin\Release\LogentriesCore.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\bin\Release\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\obj\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\Logentries\obj\Release\LogentriesCore.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\bin\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\bin\Release\LogentriesCore.pdb
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\bin\Release\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\obj\Release\LogentriesCore.dll
+C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore\obj\Release\LogentriesCore.pdb

@@ -1,0 +1,1 @@
+c:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesNLog35\obj\Debug\ResolveAssemblyReference.cache

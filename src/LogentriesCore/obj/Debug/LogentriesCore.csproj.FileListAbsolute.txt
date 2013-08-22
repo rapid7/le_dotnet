@@ -1,0 +1,5 @@
+c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\ResolveAssemblyReference.cache
+c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\Debug\Logentries.dll
+c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\Debug\Logentries.pdb
+c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.dll
+c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.pdb
