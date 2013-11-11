@@ -210,7 +210,7 @@ To work around this potential problem, consider adding the following code to you
 	{
 		// This will give LE background thread some time to finish sending messages to Logentries.
 		var numWaits = 3;
-		while (!log4net.Appender.LogentriesAppender.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
+		while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
 			numWaits--;
 	}
 
@@ -373,6 +373,6 @@ To work around this potential problem, consider adding the following code to you
 	{
 		// This will give LE background thread some time to finish sending messages to Logentries.
 		var numWaits = 3;
-		while (!log4net.Appender.LogentriesAppender.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
+		while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
 			numWaits--;
 	}
