@@ -9,7 +9,7 @@ using LogentriesCore.Net;
 
 namespace log4net.Appender
 {
-    class LogentriesAppender : AppenderSkeleton
+    public class LogentriesAppender : AppenderSkeleton
     {
         private AsyncLogger logentriesAsync;
 
@@ -128,7 +128,7 @@ namespace log4net.Appender
         }
 
         /* This property exists for backward compatibility with older configuration XML. */
-        [Obsolete("Use the UseHttpPut property instead.")]
+        [Obsolete("Use the UseSsl property instead.")]
         public bool Ssl
         {
             get
