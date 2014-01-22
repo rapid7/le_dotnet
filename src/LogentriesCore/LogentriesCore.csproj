@@ -12,6 +12,8 @@
     <AssemblyName>LogentriesCore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\..\..\Code\AlanBoswell.WebFramework\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +60,7 @@ COPY "$(TargetPath)" "%25NUGET_PROJECTS%25$(ProjectName)\2.4.0\lib\net40\" /Y
 nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.4.0\logentries.core.nuspec /o %25NUGET_PROJECTS%25$(ProjectName)\2.4.0\
 )</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

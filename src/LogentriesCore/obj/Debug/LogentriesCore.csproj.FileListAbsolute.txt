@@ -3,3 +3,9 @@ c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\De
 c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\Debug\Logentries.pdb
 c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.dll
 c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.pdb
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.dll
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.pdb
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.csprojResolveAssemblyReference.cache
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.dll
+C:\Users\rprice\Documents\GitHub\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.pdb

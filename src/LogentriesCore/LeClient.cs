@@ -69,7 +69,7 @@ kAuBvDPPm+C0/M4RLYs=
                 m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
         }
 
-        private bool m_UseSsl = false;
+        private bool m_UseSsl = true;
         private int m_TcpPort;
         private TcpClient m_Client = null;
         private Stream m_Stream = null;
