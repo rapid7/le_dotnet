@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace LogentriesCore.Net
         #region Constants
 
         // Current version number.
-        protected const String Version = "2.4.0";
+        protected const String Version = "2.4.4";
 
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;
@@ -328,6 +329,17 @@ namespace LogentriesCore.Net
 
         /*
          * Use CloudConfigurationManager with .NET4.0 and fallback to System.Configuration for previous frameworks.
+         * 
+         * NOTE: This is not entirely clear with regards to the above comment, but this block of code uses a compiler directive NET4_0
+         *       which is not set by default anywhere, so most uses of this code will default back to the "pre-.Net4.0" code branch, even
+         *       if you are using .Net4.0 or .Net4.5.
+         *       
+         *       The second issue is that there are two appsetting keys for each setting - the "legacy" key, such as "LOGENTRIES_TOKEN"
+         *       and the "non-legacy" key, such as "Logentries.Token".  Again, I'm not sure of the reasons behind this, so the code below checks
+         *       both the legacy and non-legacy keys, defaulting to the legacy keys if they are found.
+         *       
+         *       It probably should be investigated whether the fallback to ConfigurationManager is needed at all, as CloudConfigurationManager 
+         *       will retrieve settings from appSettings in a non-Azure environment.
          */
         protected virtual bool LoadCredentials()
         {
@@ -353,7 +365,7 @@ namespace LogentriesCore.Net
 #if NET4_0
             var configAccountKey = CloudConfigurationManager.GetSetting(LegacyConfigAccountKeyName) ?? CloudConfigurationManager.GetSetting(ConfigAccountKeyName);
 #else
-            var configAccountKey = ConfigurationManager.AppSettings[ConfigAccountKeyName];
+            var configAccountKey = ConfigurationManager.AppSettings[LegacyConfigAccountKeyName] ?? ConfigurationManager.AppSettings[ConfigAccountKeyName];
 #endif
             if (!String.IsNullOrEmpty(configAccountKey) && GetIsValidGuid(configAccountKey))
             {
@@ -361,7 +373,7 @@ namespace LogentriesCore.Net
 #if NET4_0
                 var configLocation = CloudConfigurationManager.GetSetting(LegacyConfigLocationName) ?? CloudConfigurationManager.GetSetting(ConfigLocationName);
 #else
-                var configLocation = ConfigurationManager.AppSettings[ConfigLocationName];
+                var configLocation = ConfigurationManager.AppSettings[LegacyConfigLocationName] ?? ConfigurationManager.AppSettings[ConfigLocationName];
 #endif
                 if (!String.IsNullOrEmpty(configLocation))
                 {
@@ -415,6 +427,8 @@ namespace LogentriesCore.Net
                 //LogLog.Debug(msg);
 
                 //LogLog.Debug(typeof(LogentriesAppender), msg);
+
+                Debug.WriteLine(message);
             }
         }
 
@@ -429,6 +443,7 @@ namespace LogentriesCore.Net
             //LogLog.Debug(message);
 
             //LogLog.Debug(typeof(LogentriesAppender), message);
+            Debug.WriteLine(message);
         }
 
         #endregion
@@ -437,6 +452,7 @@ namespace LogentriesCore.Net
 
         public virtual void AddLine(string line)
         {
+            Debug.Write("LE - Adding Line: line");
             if (!IsRunning)
             {
                 if (LoadCredentials())
