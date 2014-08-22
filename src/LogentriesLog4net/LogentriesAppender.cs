@@ -127,6 +127,84 @@ namespace log4net.Appender
             }
         }
 
+        /* Is using DataHub parameter flag. - set to true to use DataHub server */
+        public bool IsUsingDataHub
+        {
+            get 
+            { 
+                return logentriesAsync.getIsUsingDataHab(); 
+            }
+            set 
+            { 
+                logentriesAsync.setIsUsingDataHub(value); 
+            }
+        }
+
+        /* DataHub server address */
+        public String DataHubAddr
+        {
+            get 
+            { 
+                return logentriesAsync.getDataHubAddr(); 
+            }
+            set 
+            { 
+                logentriesAsync.setDataHubAddr(value); 
+            }
+        }
+
+        /* DataHub server port */
+        public int DataHubPort
+        {
+            get 
+            { 
+                return logentriesAsync.getDataHubPort(); 
+            }
+            set 
+            { 
+                logentriesAsync.setDataHubPort(value); 
+            }
+        }
+
+        /* Switch that defines whether add host name to the log message */
+        public bool LogHostname
+        {
+            get
+            {
+                return logentriesAsync.getUseHostName();
+            }
+            set
+            {
+                logentriesAsync.setUseHostName(value);
+            }
+        }
+
+        /* User-defined host name. If empty the library will try to obtain it automatically */
+        public String HostName
+        {
+            get
+            {
+                return logentriesAsync.getHostName();
+            }
+            set
+            {
+                logentriesAsync.setHostName(value);
+            }
+        }
+
+        /* User-defined log message ID */
+        public String LogID
+        {
+            get
+            {
+                return logentriesAsync.getLogID();
+            }
+            set
+            {
+                logentriesAsync.setLogID(value);
+            }
+        }
+
         /* This property exists for backward compatibility with older configuration XML. */
         [Obsolete("Use the UseSsl property instead.")]
         public bool Ssl

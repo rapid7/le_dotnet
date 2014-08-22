@@ -1,9 +1,18 @@
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\obj\Debug\ResolveAssemblyReference.cache
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\LogentriesNLog.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\LogentriesNLog.pdb
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\Logentries.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\NLog.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\Logentries.pdb
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\bin\Debug\NLog.xml
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\obj\Debug\LogentriesNLog.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\LogentriesNLog\obj\Debug\LogentriesNLog.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesNLog.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesNLog.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\NLog.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\bin\Debug\NLog.xml
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.csprojResolveAssemblyReference.cache
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesNLog.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesNLog.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesCore.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\NLog.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\LogentriesCore.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\bin\Debug\NLog.xml
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.csprojResolveAssemblyReference.cache
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesNLog\obj\Debug\LogentriesNLog.pdb

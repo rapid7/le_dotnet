@@ -60,13 +60,28 @@ BJE6y5eOPTSbtkmBW/ukaVYdI5NLXNer3IaK3fetV3LvYGOaX8hR45FI1pvyKYvf
 S5ol3bQmY1mv78XKkOk=
 -----END CERTIFICATE-----"));
 
-        public LeClient(bool useHttpPut, bool useSsl)
+        // Creates LeClient instance. If do not define useServerUrl and/or useOverrideProt during call
+        // LeClient will be configured to work with api.logentries.com server; otherwise - with
+        // defined server on defined port.
+        public LeClient(bool useHttpPut, bool useSsl, bool useDataHub, String serverAddr, int port)
         {
-            m_UseSsl = useSsl;
-            if (!m_UseSsl)
-                m_TcpPort = useHttpPut ? LeApiHttpPort : LeApiTokenPort;
+            
+            // Override port number and server address to send logs to DataHub instance.
+            if (useDataHub)
+            {
+                m_UseSsl = false; // DataHub does not support receiving log messages over SSL for now.
+                m_TcpPort = port;
+                m_ServerAddr = serverAddr;
+            }
             else
-                m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
+            {
+                m_UseSsl = useSsl;
+
+                if (!m_UseSsl)
+                    m_TcpPort = useHttpPut ? LeApiHttpPort : LeApiTokenPort;
+                else
+                    m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
+            }            
         }
 
         private bool m_UseSsl = false;
@@ -74,6 +89,7 @@ S5ol3bQmY1mv78XKkOk=
         private TcpClient m_Client = null;
         private Stream m_Stream = null;
         private SslStream m_SslStream = null;
+        private String m_ServerAddr = LeApiUrl; // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
 
         private Stream ActiveStream
         {
@@ -85,7 +101,7 @@ S5ol3bQmY1mv78XKkOk=
 
         public void Connect()
         {
-            m_Client = new TcpClient(LeApiUrl, m_TcpPort);
+            m_Client = new TcpClient(m_ServerAddr, m_TcpPort);
             m_Client.NoDelay = true;
 
             m_Stream = m_Client.GetStream();
@@ -93,7 +109,7 @@ S5ol3bQmY1mv78XKkOk=
             if (m_UseSsl)
             {
                 m_SslStream = new SslStream(m_Stream, false, (sender, cert, chain, errors) => cert.GetCertHashString() == LeApiServerCertificate.GetCertHashString());
-                m_SslStream.AuthenticateAsClient(LeApiUrl);
+                m_SslStream.AuthenticateAsClient(m_ServerAddr);
             }
         }
 

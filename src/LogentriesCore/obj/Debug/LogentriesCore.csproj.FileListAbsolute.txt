@@ -1,5 +1,11 @@
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\ResolveAssemblyReference.cache
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\Debug\Logentries.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\bin\Debug\Logentries.pdb
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.dll
-c:\users\mark\documents\visual studio 2010\Projects\Logentries\Logentries\obj\Debug\Logentries.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.csprojResolveAssemblyReference.cache
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesCore\bin\Debug\LogentriesCore.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesCore\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesCore\obj\Debug\LogentriesCore.pdb

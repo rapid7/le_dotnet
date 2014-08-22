@@ -1,5 +1,4 @@
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore35\bin\Release\LogentriesCore.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore35\bin\Release\LogentriesCore.pdb
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore35\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore35\obj\Release\LogentriesCore.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesCore35\obj\Release\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\bin\Release\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\bin\Release\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\obj\Release\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\obj\Release\LogentriesCore.pdb

@@ -1,0 +1,18 @@
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesLog4net35.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesLog4net35.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\log4net.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\bin\Debug\log4net.xml
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.csprojResolveAssemblyReference.cache
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesLog4net35.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesLog4net35.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\log4net.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesCore.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\LogentriesCore.pdb
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\bin\Debug\log4net.xml
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.csprojResolveAssemblyReference.cache
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.dll
+C:\Users\Stephen\Documents\LEU\.NET DH\le_dotnet\le_dotnet\src\LogentriesLog4net35\obj\Debug\LogentriesLog4net35.pdb

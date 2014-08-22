@@ -1,9 +1,9 @@
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesLog4net.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesLog4net.pdb
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\log4net.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesCore.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\LogentriesCore.pdb
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\bin\Release\log4net.xml
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\LogentriesLog4net.dll
-C:\Users\Mark\Documents\Visual Studio 2010\Projects\Logentries\LogentriesLog4net\obj\Release\LogentriesLog4net.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\LogentriesLog4net.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\LogentriesLog4net.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\log4net.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\LogentriesCore.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\LogentriesCore.pdb
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\bin\Release\log4net.xml
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\obj\Release\LogentriesLog4net.csprojResolveAssemblyReference.cache
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\obj\Release\LogentriesLog4net.dll
+D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesLog4net\obj\Release\LogentriesLog4net.pdb

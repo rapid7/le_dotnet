@@ -58,8 +58,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
-COPY "$(TargetPath)" "%25NUGET_PROJECTS%25$(ProjectName)\2.4.0\lib\net40\" /Y
-nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.4.0\logentries.log4net.nuspec /o %25NUGET_PROJECTS%25$(ProjectName)\2.4.0\
+COPY "$(TargetPath)" "%25NUGET_PROJECTS%25$(ProjectName)\2.5.0\lib\net40\" /Y
+nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.5.0\logentries.log4net.nuspec /o %25NUGET_PROJECTS%25$(ProjectName)\2.5.0\
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
