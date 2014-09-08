@@ -1,9 +1,0 @@
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\LogentriesNLog.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\LogentriesNLog.pdb
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\LogentriesCore.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\NLog.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\LogentriesCore.pdb
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\bin\Release\NLog.xml
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\obj\Release\LogentriesNLog35.csprojResolveAssemblyReference.cache
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\obj\Release\LogentriesNLog.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesNLog35\obj\Release\LogentriesNLog.pdb

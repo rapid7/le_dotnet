@@ -1,4 +1,0 @@
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\bin\Release\LogentriesCore.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\bin\Release\LogentriesCore.pdb
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\obj\Release\LogentriesCore.dll
-D:\WORK\GithubToSvn\DotNetLib\trunk\le_dotnet\src\LogentriesCore35\obj\Release\LogentriesCore.pdb
