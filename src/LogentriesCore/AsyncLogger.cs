@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 
 namespace LogentriesCore.Net
 {
+    using System.Security;
+
     public class AsyncLogger
     {
         #region Constants
@@ -460,11 +462,26 @@ namespace LogentriesCore.Net
 
         private string retrieveSetting(String name)
         {
+            string value;
+
 #if NET4_0
-            return CloudConfigurationManager.GetSetting(name);
+            value = CloudConfigurationManager.GetSetting(name);
 #else
-            return ConfigurationManager.AppSettings[name];
+            value = ConfigurationManager.AppSettings[name];
 #endif
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                try
+                {
+                    value = Environment.GetEnvironmentVariable(name);
+                }
+                catch (SecurityException)
+                {
+                }
+            }
+
+            return value;
         }
 
         /*
