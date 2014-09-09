@@ -6,9 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-
-#if !NET4_0
 using System.Text.RegularExpressions;
+
+#if NET4_0
+using Microsoft.WindowsAzure;
 #endif
 
 namespace LogentriesCore.Net
@@ -553,7 +554,7 @@ namespace LogentriesCore.Net
 
             System.Guid newGuid = System.Guid.NewGuid();
 #if NET4_0
-            return System.Guid.TryParse(uuid_input, out newGuid);
+            return System.Guid.TryParse(guidString, out newGuid);
 #else
             return IsGuid(guidString, out newGuid);
 #endif
