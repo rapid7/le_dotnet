@@ -21,7 +21,7 @@ namespace LogentriesCore.Net
         #region Constants
 
         // Current version number.
-        protected const String Version = "2.4.4";
+        protected const String Version = "2.6.0";
 
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;

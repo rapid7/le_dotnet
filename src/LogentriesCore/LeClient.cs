@@ -25,39 +25,6 @@ namespace LogentriesCore.Net
         // Port number for SSL HTTP PUT logging on Logentries API server. 
         protected const int LeApiHttpsPort = 443;
 
-        // Logentries API server certificate. 
-        protected static readonly X509Certificate2 LeApiServerCertificate =
-            new X509Certificate2(Encoding.UTF8.GetBytes(
-@"-----BEGIN CERTIFICATE-----
-MIIE3jCCA8agAwIBAgICGbowDQYJKoZIhvcNAQELBQAwZjELMAkGA1UEBhMCVVMx
-FjAUBgNVBAoTDUdlb1RydXN0IEluYy4xHTAbBgNVBAsTFERvbWFpbiBWYWxpZGF0
-ZWQgU1NMMSAwHgYDVQQDExdHZW9UcnVzdCBEViBTU0wgQ0EgLSBHNDAeFw0xNDEw
-MjkxMjI5MzJaFw0xNjA5MTQwODE3MzlaMIGWMRMwEQYDVQQLEwpHVDAzOTM4Njcw
-MTEwLwYDVQQLEyhTZWUgd3d3Lmdlb3RydXN0LmNvbS9yZXNvdXJjZXMvY3BzIChj
-KTEyMS8wLQYDVQQLEyZEb21haW4gQ29udHJvbCBWYWxpZGF0ZWQgLSBRdWlja1NT
-TChSKTEbMBkGA1UEAxMSYXBpLmxvZ2VudHJpZXMuY29tMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAyvDKhaiboZS5GHaZ7HBsidUBJoBu1YqMgUxvFohv
-xppf5QqjjDP4knjKyC3K8t7cMTFem1CXHA03AW0nImy2cbDcWhr7MpTr5J90e3Ld
-neWfBiFNStzjaE9jhdWDvu0ctVact1TIQgYfSAlRMEKW+OuaUwq3dEJNRJNzdrzE
-aefQN7c4e2IgTuFvU9p7Qzifiq9Qu1VoSSDK3lxZiQuChWtd4sGYhqqjbkkMRvQ/
-pRdiJ0gcFtGaqZLaj3Op+poz40iOiubWB4U8iOHiSjoGdRVi0LJKUeiSRw9lRO+1
-qbj4g9ASZU+g7XugZn5GQvrR8E6ha5nZHEdDTI8JiEHXLwIDAQABo4IBYzCCAV8w
-HwYDVR0jBBgwFoAUC1Dsd+8qm//sA6EK/63G5CoYxz4wVwYIKwYBBQUHAQEESzBJ
-MB8GCCsGAQUFBzABhhNodHRwOi8vZ3Uuc3ltY2QuY29tMCYGCCsGAQUFBzAChhpo
-dHRwOi8vZ3Uuc3ltY2IuY29tL2d1LmNydDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0l
-BBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMB0GA1UdEQQWMBSCEmFwaS5sb2dlbnRy
-aWVzLmNvbTArBgNVHR8EJDAiMCCgHqAchhpodHRwOi8vZ3Uuc3ltY2IuY29tL2d1
-LmNybDAMBgNVHRMBAf8EAjAAMFoGA1UdIARTMFEwTwYKYIZIAYb4RQEHNjBBMD8G
-CCsGAQUFBwIBFjNodHRwczovL3d3dy5nZW90cnVzdC5jb20vcmVzb3VyY2VzL3Jl
-cG9zaXRvcnkvbGVnYWwwDQYJKoZIhvcNAQELBQADggEBAGL2wkx4Gk99EAcW0ClG
-sCVFUbZ/DW2So0c5MjKkfFIGdH4a++x9eTNi28GoeF6YF2S8tOKS4fHHHxby4Fvn
-ToUp4yR3Z3zAwNFULC1Gc+1kaV0/6k99LuiKNlIU7CHocSjQs7zvmc85l152lrAL
-pzodvnfOn8rjUZvGOi2hb8VC7ZUSQCD9NJNNexF6G4dYc2TBjCD5xrhYXNcYCDXu
-TGtvFnmBzFIO06IjqPWUFnerZxkktHf63PCB+xTxRWtDc84K91jmc+u7k/yY5wdf
-aigW0/FPgSXR+as3fD1SSLuIgHynDdsUYLtCdbqiIRpZc/cmXzJI0bzhzpgGDPcn
-81I=
------END CERTIFICATE-----"));
-
         // Creates LeClient instance. If do not define useServerUrl and/or useOverrideProt during call
         // LeClient will be configured to work with api.logentries.com server; otherwise - with
         // defined server on defined port.
@@ -106,8 +73,9 @@ aigW0/FPgSXR+as3fD1SSLuIgHynDdsUYLtCdbqiIRpZc/cmXzJI0bzhzpgGDPcn
 
             if (m_UseSsl)
             {
-                m_SslStream = new SslStream(m_Stream, false, (sender, cert, chain, errors) => cert.GetCertHashString() == LeApiServerCertificate.GetCertHashString());
+                m_SslStream = new SslStream(m_Stream);
                 m_SslStream.AuthenticateAsClient(m_ServerAddr);
+
             }
         }
 
