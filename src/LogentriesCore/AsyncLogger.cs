@@ -461,6 +461,18 @@ namespace LogentriesCore.Net
                 LeClient.Close();
         }
 
+        public static bool IsNullOrWhiteSpace(String value)
+        {
+            if (value == null) return true;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (!Char.IsWhiteSpace(value[i])) return false;
+            }
+
+            return true;
+        }
+
         private string retrieveSetting(String name)
         {
             string value;
@@ -471,7 +483,7 @@ namespace LogentriesCore.Net
             value = ConfigurationManager.AppSettings[name];
 #endif
 
-            if (string.IsNullOrWhiteSpace(value))
+            if (IsNullOrWhiteSpace(value))
             {
                 try
                 {
