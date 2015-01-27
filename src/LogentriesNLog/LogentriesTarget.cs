@@ -114,21 +114,6 @@ namespace NLog.Targets
             //Render message content
             String renderedEvent = this.Layout.Render(logEvent);
 
-            try
-            {
-                //NLog can pass null references of Exception
-                if (logEvent.Exception != null)
-                {
-                    String excep = logEvent.Exception.ToString();
-                    if (excep.Length > 0)
-                    {
-                        renderedEvent += ", ";
-                        renderedEvent += excep;
-                    }
-                }
-            }
-            catch { }
-
             logentriesAsync.AddLine(renderedEvent);
         }
 

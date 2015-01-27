@@ -15,13 +15,14 @@ using Microsoft.WindowsAzure;
 namespace LogentriesCore.Net
 {
     using System.Security;
+    using Microsoft.WindowsAzure;
 
     public class AsyncLogger
     {
         #region Constants
 
         // Current version number.
-        protected const String Version = "2.6.0";
+        protected const String Version = "2.6.6";
 
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;
@@ -66,11 +67,6 @@ namespace LogentriesCore.Net
         // Restricted symbols that should not appear in host name.
         // See http://support.microsoft.com/kb/228275/en-us for details.
         private static Regex ForbiddenHostNameChars = new Regex(@"[/\\\[\]\""\:\;\|\<\>\+\=\,\?\* _]{1,}", RegexOptions.Compiled);
-
-#if !NET4_0
-        /** Regex used to validate GUID in .NET3.5 */
-        private static Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-#endif
 
         #endregion
 
@@ -475,13 +471,16 @@ namespace LogentriesCore.Net
 
         private string retrieveSetting(String name)
         {
-            string value;
+            string value = null;
 
-#if NET4_0
-            value = CloudConfigurationManager.GetSetting(name);
-#else
-            value = ConfigurationManager.AppSettings[name];
-#endif
+            try
+            {
+                value = CloudConfigurationManager.GetSetting(name);
+            }
+            catch (Exception)
+            {
+
+            }
 
             if (IsNullOrWhiteSpace(value))
             {
@@ -500,18 +499,15 @@ namespace LogentriesCore.Net
         /*
          * Use CloudConfigurationManager with .NET4.0 and fallback to System.Configuration for previous frameworks.
          * 
-         * NOTE: This is not entirely clear with regards to the above comment, but this block of code uses a compiler directive NET4_0
-         *       which is not set by default anywhere, so most uses of this code will default back to the "pre-.Net4.0" code branch, even
-         *       if you are using .Net4.0 or .Net4.5.
          *       
-         *       The second issue is that there are two appsetting keys for each setting - the "legacy" key, such as "LOGENTRIES_TOKEN"
+         *       One issue is that there are two appsetting keys for each setting - the "legacy" key, such as "LOGENTRIES_TOKEN"
          *       and the "non-legacy" key, such as "Logentries.Token".  Again, I'm not sure of the reasons behind this, so the code below checks
          *       both the legacy and non-legacy keys, defaulting to the legacy keys if they are found.
          *       
          *       It probably should be investigated whether the fallback to ConfigurationManager is needed at all, as CloudConfigurationManager 
          *       will retrieve settings from appSettings in a non-Azure environment.
          */
-        protected virtual bool LoadCredentials()
+        public virtual bool LoadCredentials()
         {
             if (!m_UseHttpPut)
             {
@@ -532,19 +528,15 @@ namespace LogentriesCore.Net
 
             if (m_AccountKey != "" && GetIsValidGuid(m_AccountKey) && m_Location != "")
                 return true;
-#if NET4_0
+
             var configAccountKey = CloudConfigurationManager.GetSetting(LegacyConfigAccountKeyName) ?? CloudConfigurationManager.GetSetting(ConfigAccountKeyName);
-#else
-            var configAccountKey = ConfigurationManager.AppSettings[LegacyConfigAccountKeyName] ?? ConfigurationManager.AppSettings[ConfigAccountKeyName];
-#endif
+
             if (!String.IsNullOrEmpty(configAccountKey) && GetIsValidGuid(configAccountKey))
             {
                 m_AccountKey = configAccountKey;
-#if NET4_0
+
                 var configLocation = CloudConfigurationManager.GetSetting(LegacyConfigLocationName) ?? CloudConfigurationManager.GetSetting(ConfigLocationName);
-#else
-                var configLocation = ConfigurationManager.AppSettings[LegacyConfigLocationName] ?? ConfigurationManager.AppSettings[ConfigLocationName];
-#endif
+
                 if (!String.IsNullOrEmpty(configLocation))
                 {
                     m_Location = configLocation;
@@ -561,20 +553,6 @@ namespace LogentriesCore.Net
             return !ForbiddenHostNameChars.IsMatch(hostName); // Returns false if reg.ex. matches any of forbidden chars.
         }
 
-#if !NET4_0
-        static bool IsGuid(string candidate, out Guid output)
-        {
-            bool isValid = false;
-            output = Guid.Empty;
-
-            if (isGuid.IsMatch(candidate))
-            {
-                output = new Guid(candidate);
-                isValid = true;
-            }
-            return isValid;
-        }
-#endif
 
         protected virtual bool GetIsValidGuid(string guidString)
         {
@@ -582,11 +560,9 @@ namespace LogentriesCore.Net
                 return false;
 
             System.Guid newGuid = System.Guid.NewGuid();
-#if NET4_0
+
             return System.Guid.TryParse(guidString, out newGuid);
-#else
-            return IsGuid(guidString, out newGuid);
-#endif
+
         }
 
         protected virtual void WriteDebugMessages(string message, Exception ex)
@@ -598,10 +574,6 @@ namespace LogentriesCore.Net
             string[] messages = { message, ex.ToString() };
             foreach (var msg in messages)
             {
-                // Use below line instead when compiling with log4net1.2.10.
-                //LogLog.Debug(msg);
-
-                //LogLog.Debug(typeof(LogentriesAppender), msg);
 
                 Debug.WriteLine(message);
             }
@@ -614,10 +586,6 @@ namespace LogentriesCore.Net
 
             message = LeSignature + message;
 
-            // Use below line instead when compiling with log4net1.2.10.
-            //LogLog.Debug(message);
-
-            //LogLog.Debug(typeof(LogentriesAppender), message);
             Debug.WriteLine(message);
         }
 
