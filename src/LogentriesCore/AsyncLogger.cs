@@ -22,7 +22,7 @@ namespace LogentriesCore.Net
         #region Constants
 
         // Current version number.
-        protected const String Version = "2.6.6";
+        protected const String Version = "2.6.7";
 
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;
@@ -111,7 +111,7 @@ namespace LogentriesCore.Net
             _allQueues.Add(Queue);
 
             WorkerThread = new Thread(new ThreadStart(Run));
-            WorkerThread.Name = "Logentries Log4net Appender";
+            WorkerThread.Name = "Logentries Log Appender";
             WorkerThread.IsBackground = true;
         }
 
@@ -121,7 +121,7 @@ namespace LogentriesCore.Net
         private String m_AccountKey = "";
         private String m_Location = "";
         private bool m_ImmediateFlush = false;
-        private bool m_Debug = false;
+        public bool m_Debug = false;
         private bool m_UseHttpPut = false;
         private bool m_UseSsl = false;
 
@@ -469,31 +469,34 @@ namespace LogentriesCore.Net
             return true;
         }
 
+        /* Retrieve configuration settings
+         * Will check Enviroment Variable as the last fall back.
+         * 
+         */
         private string retrieveSetting(String name)
         {
-            string value = null;
-
-            try
+            var cloudconfig = CloudConfigurationManager.GetSetting(name);
+            if (!String.IsNullOrWhiteSpace(cloudconfig))
             {
-                value = CloudConfigurationManager.GetSetting(name);
-            }
-            catch (Exception)
-            {
-
+                WriteDebugMessages(String.Format("Found Cloud Configuration settings for {0}", name));
+                return cloudconfig;
             }
 
-            if (IsNullOrWhiteSpace(value))
+            var appconfig = ConfigurationManager.AppSettings[name];
+            if (!String.IsNullOrWhiteSpace(appconfig))
             {
-                try
-                {
-                    value = Environment.GetEnvironmentVariable(name);
-                }
-                catch (SecurityException)
-                {
-                }
+                WriteDebugMessages(String.Format("Found App Settings for {0}", name));
+                return appconfig;
             }
 
-            return value;
+            var envconfig = Environment.GetEnvironmentVariable(name);
+            if (!String.IsNullOrWhiteSpace(envconfig))
+            {
+                WriteDebugMessages(String.Format("Found Enviromental Variable for {0}", name));
+                return envconfig;
+            }
+            WriteDebugMessages(String.Format("Unable to find Logentries Configuration Setting for {0}.", name));
+            return null;
         }
 
         /*
@@ -521,7 +524,6 @@ namespace LogentriesCore.Net
                     m_Token = configToken;
                     return true;
                 }
-
                 WriteDebugMessages(InvalidTokenMessage);
                 return false;
             }
@@ -529,13 +531,13 @@ namespace LogentriesCore.Net
             if (m_AccountKey != "" && GetIsValidGuid(m_AccountKey) && m_Location != "")
                 return true;
 
-            var configAccountKey = CloudConfigurationManager.GetSetting(LegacyConfigAccountKeyName) ?? CloudConfigurationManager.GetSetting(ConfigAccountKeyName);
+            var configAccountKey = retrieveSetting(LegacyConfigAccountKeyName) ?? retrieveSetting(ConfigAccountKeyName);
 
             if (!String.IsNullOrEmpty(configAccountKey) && GetIsValidGuid(configAccountKey))
             {
                 m_AccountKey = configAccountKey;
 
-                var configLocation = CloudConfigurationManager.GetSetting(LegacyConfigLocationName) ?? CloudConfigurationManager.GetSetting(ConfigLocationName);
+                var configLocation = retrieveSetting(LegacyConfigLocationName) ?? retrieveSetting(ConfigLocationName);
 
                 if (!String.IsNullOrEmpty(configLocation))
                 {
@@ -543,7 +545,6 @@ namespace LogentriesCore.Net
                     return true;
                 }
             }
-
             WriteDebugMessages(InvalidHttpPutCredentialsMessage);
             return false;
         }
@@ -575,7 +576,7 @@ namespace LogentriesCore.Net
             foreach (var msg in messages)
             {
 
-                Debug.WriteLine(message);
+                Trace.WriteLine(message);
             }
         }
 
@@ -586,7 +587,7 @@ namespace LogentriesCore.Net
 
             message = LeSignature + message;
 
-            Debug.WriteLine(message);
+            Trace.WriteLine(message);
         }
 
         #endregion
@@ -595,7 +596,7 @@ namespace LogentriesCore.Net
 
         public virtual void AddLine(string line)
         {
-            Debug.Write("LE - Adding Line: line");
+            WriteDebugMessages("LE - Adding Line: line");
             if (!IsRunning)
             {
                 // We need to load user credentials only
