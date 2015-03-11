@@ -596,7 +596,7 @@ namespace LogentriesCore.Net
 
         public virtual void AddLine(string line)
         {
-            WriteDebugMessages("LE - Adding Line: line");
+            WriteDebugMessages("LE - Adding Line: " + line);
             if (!IsRunning)
             {
                 // We need to load user credentials only
