@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -9,14 +9,15 @@ using System.Threading;
 using System.Text.RegularExpressions;
 
 #if NET4_0
-using Microsoft.WindowsAzure;
+    using Microsoft.Azure;
 #endif
 
 namespace LogentriesCore.Net
 {
     using System.Security;
-    using Microsoft.WindowsAzure;
-
+    using System.Collections.Concurrent;
+    using Microsoft.Azure;
+    
     public class AsyncLogger
     {
         #region Constants
