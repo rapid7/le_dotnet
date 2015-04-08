@@ -56,6 +56,8 @@ Logging settings determine how the appender operates, and are specified as child
 - **Debug**: Set to `true` to send internal debug messages to the Log4net internal logger.
 - **UseHttpPut**: Set to `true` to use HTTP PUT to send data to Logentries (see below for more information).
 - **UseSsl**: Set to `true` to use SSL to send data to Logentries (see below for more information).
+- **ApiUrl**: Set the Url to send data to Logentries
+- **ApiTokenPort**: Set the port to send data to Logentries
 - **Layout**: The layout used to format log messages before they are sent to Logentries. See the [Configuration section of the Log4net manual](http://logging.apache.org/log4net/release/manual/configuration.html) for more information on configuring layouts.
 
 Here is an example of an appender configuration that works well for Logentries:

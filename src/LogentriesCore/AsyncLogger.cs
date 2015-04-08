@@ -118,6 +118,8 @@ namespace LogentriesCore.Net
 
         #region Configuration properties
 
+        private String m_LeApiUrl = "";
+        private int m_LeApiTokenPort = 0;
         private String m_Token = "";
         private String m_AccountKey = "";
         private String m_Location = "";
@@ -135,6 +137,28 @@ namespace LogentriesCore.Net
         private bool m_UseHostName = false; // Defines whether to prefix log message with HostName or not.
         private String m_HostName = ""; // User-defined or auto-defined host name (if not set in config. file)
         private String m_LogID = ""; // User-defined log ID to be prefixed to the log message.
+
+        // Sets the LeApiUrl is waiting for log messages.
+        public void setLeApiUrl(string leApiUrl)
+        {
+            m_LeApiUrl = leApiUrl;
+        }
+
+        public string getLeApiUrl()
+        {
+            return m_LeApiUrl;
+        }
+
+        // Sets the LeApiUrl is waiting for log messages.
+        public void setLeApiTokenPort(int leApiTokenPort)
+        {
+            m_LeApiTokenPort = leApiTokenPort;
+        }
+
+        public int getLeApiTokenPort()
+        {
+            return m_LeApiTokenPort;
+        }
 
         // Sets DataHub usage flag.
         public void setIsUsingDataHub(bool useDataHub)
@@ -397,7 +421,7 @@ namespace LogentriesCore.Net
                     // Create LeClient instance providing all needed parameters. If DataHub-related properties
                     // have not been overridden by log4net or NLog configurators, then DataHub is not used, 
                     // because m_UseDataHub == false by default.
-                    LeClient = new LeClient(m_UseHttpPut, m_UseSsl, m_UseDataHub, m_DataHubAddr, m_DataHubPort);
+                    LeClient = new LeClient(m_UseHttpPut, m_UseSsl, m_UseDataHub, m_DataHubAddr, m_DataHubPort, m_LeApiUrl, m_LeApiTokenPort);
                 }                    
 
                 LeClient.Connect();
