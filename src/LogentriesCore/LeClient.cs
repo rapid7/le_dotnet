@@ -28,15 +28,21 @@ namespace LogentriesCore.Net
         // Creates LeClient instance. If do not define useServerUrl and/or useOverrideProt during call
         // LeClient will be configured to work with api.logentries.com server; otherwise - with
         // defined server on defined port.
-        public LeClient(bool useHttpPut, bool useSsl, bool useDataHub, String serverAddr, int port)
+        public LeClient(bool useHttpPut, bool useSsl, bool useDataHub, String serverAddr, int port, string leApiUrl, int leApiTokenPort)
         {
-            
+            // Check if has leApiUrl
+            m_ServerAddr = !string.IsNullOrEmpty(leApiUrl) ? leApiUrl : m_ServerAddr;
+
             // Override port number and server address to send logs to DataHub instance.
             if (useDataHub)
             {
                 m_UseSsl = false; // DataHub does not support receiving log messages over SSL for now.
                 m_TcpPort = port;
                 m_ServerAddr = serverAddr;
+            }
+            else if (leApiTokenPort != 0)
+            {
+                m_TcpPort = leApiTokenPort;
             }
             else
             {
@@ -55,6 +61,10 @@ namespace LogentriesCore.Net
         private Stream m_Stream = null;
         private SslStream m_SslStream = null;
         private String m_ServerAddr = LeApiUrl; // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
+        private bool m_UseHttpPut;
+        private bool m_UseDataHub;
+        private string m_DataHubAddr;
+        private int m_DataHubPort;
 
         private Stream ActiveStream
         {

@@ -20,6 +20,32 @@ namespace log4net.Appender
 
         #region attributeMethods
 
+        /* Option to set ApiUrl programmatically or in appender definition. */
+        public string ApiUrl
+        {
+            get
+            {
+                return logentriesAsync.getLeApiUrl();
+            }
+            set
+            {
+                logentriesAsync.setLeApiUrl(value);
+            }
+        }
+
+        /* Option to set ApiTokenPort programmatically or in appender definition. */
+        public int ApiTokenPort
+        {
+            get
+            {
+                return logentriesAsync.getLeApiTokenPort();
+            }
+            set
+            {
+                logentriesAsync.setLeApiTokenPort(value);
+            }
+        }
+
         /* Option to set LOGENTRIES_TOKEN programmatically or in appender definition. */
         public string Token
         {
