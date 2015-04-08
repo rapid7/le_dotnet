@@ -52,6 +52,9 @@
     <Compile Include="..\LogentriesCore\LeClient.cs">
       <Link>LeClient.cs</Link>
     </Compile>
+    <Compile Include="..\LogentriesCore\SystemMetric.cs">
+      <Link>SystemMetric.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
