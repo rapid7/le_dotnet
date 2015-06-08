@@ -476,7 +476,18 @@ namespace LogentriesCore.Net
          */
         private string retrieveSetting(String name)
         {
-            var cloudconfig = CloudConfigurationManager.GetSetting(name);
+            string cloudconfig = null;
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                cloudconfig = ConfigurationManager.AppSettings.Get(name);
+            }
+            else
+            {
+                cloudconfig = CloudConfigurationManager.GetSetting(name);
+            }
+
+
+            
             if (!String.IsNullOrWhiteSpace(cloudconfig))
             {
                 WriteDebugMessages(String.Format("Found Cloud Configuration settings for {0}", name));
