@@ -114,6 +114,10 @@ namespace LogentriesCore.Net
             WorkerThread = new Thread(new ThreadStart(Run));
             WorkerThread.Name = "Logentries Log Appender";
             WorkerThread.IsBackground = true;
+
+            var x = "Git is good";
+
+
         }
 
         #region Configuration properties
