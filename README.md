@@ -38,9 +38,11 @@ Log4net allows log messages to be sent to multiple destinations. In Log4net term
 
 The Logentries appender is configured and added to your Log4net configuration in the normal way using an `<appender>` element:
 
-	<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
-		...
-	</appender>
+```xml
+<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
+	...
+</appender>
+```
 
 The Logentries appender has two categories of settings that are configured somewhat differently:
 
@@ -60,16 +62,18 @@ Logging settings determine how the appender operates, and are specified as child
 
 Here is an example of an appender configuration that works well for Logentries:
 
-	<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
-		<immediateFlush value="true" />
-		<debug value="true" />
-		<useHttpPut value="false" />
-		<useSsl value="false" />
-		<layout type="log4net.Layout.PatternLayout">
-			<!-- The below pattern has been carefully formatted and optimized to work well with the Logentries.com entry parser. For reference see https://logentries.com/doc/search/. -->
-			<param name="ConversionPattern" value="%d %logger %level% %m%n" />
-		</layout>
-	</appender>
+```xml
+<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
+	<immediateFlush value="true" />
+	<debug value="true" />
+	<useHttpPut value="false" />
+	<useSsl value="false" />
+	<layout type="log4net.Layout.PatternLayout">
+		<!-- The below pattern has been carefully formatted and optimized to work well with the Logentries.com entry parser. For reference see https://logentries.com/doc/search/. -->
+		<param name="ConversionPattern" value="%d %logger %level% %m%n" />
+	</layout>
+</appender>
+```
 
 ### Logentries Credentials
 
@@ -95,27 +99,33 @@ The Logentries appender uses the [CloudConfigurationManager class](http://msdn.m
 
 Here is an example of how to specify the credentials in the `<appender>` element:
 
-	<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
-		<token value="bb61600f-f766-451e-b55f-9204f536a79f" />
-		...
-	</appender>
+```xml
+<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
+	<token value="bb61600f-f766-451e-b55f-9204f536a79f" />
+	...
+</appender>
+```
 
 Here is an example of how to specify the credentials in the `<appSettings>` element in your App.config or Web.config file:
 
-	<appSettings>
-		<add key="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
-	</appSettings>
+```xml
+<appSettings>
+	<add key="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
+</appSettings>
+```
 
 Here is an example of how to specify the credentials as Windows Azure role configuration settings:
 
-	<ServiceConfiguration serviceName="MyApp" osFamily="3" osVersion="*" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" schemaVersion="2013-03.2.0">
-		<Role name="MyRole">
-			<Instances count="2" />
-			<ConfigurationSettings>
-				<Setting name="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
-			</ConfigurationSettings>
-		</Role>
-	</ServiceConfiguration>
+```xml
+<ServiceConfiguration serviceName="MyApp" osFamily="3" osVersion="*" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" schemaVersion="2013-03.2.0">
+	<Role name="MyRole">
+		<Instances count="2" />
+		<ConfigurationSettings>
+			<Setting name="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
+		</ConfigurationSettings>
+	</Role>
+</ServiceConfiguration>
+```
 
 ### Logging Context Information in Web Applications
 
@@ -123,13 +133,15 @@ In web application it is often helpful to use Log4net's built-in ability to log 
 
 Here is an example of how additional web-specific contextual log information can be added to the layout of the Logentries appender in a format that the Logentries parser will recognize and index:
 
-	<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
-		...
-		<layout type="log4net.Layout.PatternLayout">
-			<!-- The below pattern has been carefully formatted and optimized to work well with the Logentries.com entry parser. For reference see https://logentries.com/doc/search/. -->
-			<param name="ConversionPattern" value="%d %logger %level% %m%nSessionId='%aspnet-request{ASP.NET_SessionId}'; Username='%aspnet-request{AUTH_USER}'; ClientIpAddress='%aspnet-request{REMOTE_ADDR}'; ClientUserAgent='%aspnet-request{HTTP_USER_AGENT}'; ServerName='%aspnet-request{SERVER_NAME}'; RequestMethod='%aspnet-request{REQUEST_METHOD}'; RequestUrl='%aspnet-request{URL}'; RequestQueryString='%aspnet-request{QUERY_STRING}'; RequestCookies='%aspnet-request{HTTP_COOKIE}';%n" />
-		</layout>
-	</appender>
+```xml
+<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LogentriesLog4net">
+	...
+	<layout type="log4net.Layout.PatternLayout">
+		<!-- The below pattern has been carefully formatted and optimized to work well with the Logentries.com entry parser. For reference see https://logentries.com/doc/search/. -->
+		<param name="ConversionPattern" value="%d %logger %level% %m%nSessionId='%aspnet-request{ASP.NET_SessionId}'; Username='%aspnet-request{AUTH_USER}'; ClientIpAddress='%aspnet-request{REMOTE_ADDR}'; ClientUserAgent='%aspnet-request{HTTP_USER_AGENT}'; ServerName='%aspnet-request{SERVER_NAME}'; RequestMethod='%aspnet-request{REQUEST_METHOD}'; RequestUrl='%aspnet-request{URL}'; RequestQueryString='%aspnet-request{QUERY_STRING}'; RequestCookies='%aspnet-request{HTTP_COOKIE}';%n" />
+	</layout>
+</appender>
+```
 
 ### Token-Based Logging vs. HTTP PUT Logging
 
@@ -166,20 +178,22 @@ Examples:
 
 Complete code example:
 
-    using log4net;
+```c#
+using log4net;
 
-    public class HomeController : Controller
-    {
-        private static readonly ILog m_Logger = log4net.LogManager.GetLogger(typeof(HomeController).FullName);
+public class HomeController : Controller
+{
+    private static readonly ILog m_Logger = log4net.LogManager.GetLogger(typeof(HomeController).FullName);
         
-        public ActionResult Index()
-        {
-            m_Logger.Debug("Home page viewed.");       
-            ViewBag.Message = "Welcome to ASP.NET MVC!";       
-            m_Logger.Warn("This is a warning message!");       
-            return View();
-        }
+    public ActionResult Index()
+    {
+        m_Logger.Debug("Home page viewed.");       
+        ViewBag.Message = "Welcome to ASP.NET MVC!";       
+        m_Logger.Warn("This is a warning message!");       
+        return View();
     }
+}
+```
 
 ## Troubleshooting
 
@@ -187,16 +201,20 @@ By default the Logentries appender logs its own debug messages to log4net's inte
 
 To disable log4net internal debug messages, set the `log4net.Internal.Debug` setting in the `<appSettings>` section of your `App.config` or `Web.config` file to `false`:
 
-	<appSettings>
-		<add key="log4net.Internal.Debug" value="false" />
-	</appSettings>
+```xml
+<appSettings>
+	<add key="log4net.Internal.Debug" value="false" />
+</appSettings>
+```
 
 If you would like to keep log4net internal debugging enabled in general, but disable Logentries debug messages specifically, then change the `debug` parameter inside the `<appender>` element to `false` instead:
 
-	<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LeLog4net">
-		<debug value="false" />
-		...
-	</appender>
+```xml
+<appender name="LeAppender" type="log4net.Appender.LogentriesAppender, LeLog4net">
+	<debug value="false" />
+	...
+</appender>
+```
 
 Ensure that you followed the section of this readme regarding your AssemblyInfo.cs file.
 
@@ -206,13 +224,15 @@ The Logentries appender keeps an internal queue of log messages and communicates
 
 To work around this potential problem, consider adding the following code to your application, which will block for a moment to allow the Logentries appender to finish logging all messages in the queue. The AreAllQueuesEmpty() blocks for a specified time and then returns true or false depending on whether the queues had time to become empty before the method returns.
 
-	public void Application_End()
-	{
-		// This will give LE background thread some time to finish sending messages to Logentries.
-		var numWaits = 3;
-		while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
-			numWaits--;
-	}
+```c#
+public void Application_End()
+{
+	// This will give LE background thread some time to finish sending messages to Logentries.
+	var numWaits = 3;
+	while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
+		numWaits--;
+}
+```
 
 NLog
 -----
@@ -228,7 +248,9 @@ NLog allows log messages to be sent to multiple destinations. In NLog terminolog
 
 The Logentries target is configured and added to your NLog configuration in the normal way using a `<target>` element:
 
-	<target name="logentries" type="Logentries" ... />
+```xml
+<target name="logentries" type="Logentries" ... />
+```
 
 The Logentries target has two categories of settings that are configured somewhat differently:
 
@@ -248,13 +270,15 @@ Logging settings determine how the target operates, and are specified as child e
 
 Here is an example of an appender configuration that works well for Logentries:
 
-	<extensions>
-    		<add assembly="LogentriesNLog"/>
-  	</extensions>
-  	<targets>
-    		<target name="logentries" type="Logentries" debug="true" httpPut="false" ssl="false"
+```xml
+<extensions>
+    	<add assembly="LogentriesNLog"/>
+</extensions>
+<targets>
+	<target name="logentries" type="Logentries" debug="true" httpPut="false" ssl="false"
     		layout="${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL}, ${message}"/>
-  	</targets>
+</targets>
+```
 
 
 ### Logentries Credentials
@@ -280,24 +304,30 @@ The Logentries target uses the [CloudConfigurationManager class](http://msdn.mic
 
 Here is an example of how to specify the credentials in the `<target>` element:
 
-	<target name="logentries" type="Logentries" token="bb61600f-f766-451e-b55f-9204f536a79f" ... />
+```xml
+<target name="logentries" type="Logentries" token="bb61600f-f766-451e-b55f-9204f536a79f" ... />
+```
 
 Here is an example of how to specify the credentials in the `<appSettings>` element in your App.config or Web.config file:
 
-	<appSettings>
-		<add key="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
-	</appSettings>
+```xml
+<appSettings>
+	<add key="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
+</appSettings>
+```
 
 Here is an example of how to specify the credentials as Windows Azure role configuration settings:
 
-	<ServiceConfiguration serviceName="MyApp" osFamily="3" osVersion="*" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" schemaVersion="2013-03.2.0">
-		<Role name="MyRole">
-			<Instances count="2" />
-			<ConfigurationSettings>
-				<Setting name="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
-			</ConfigurationSettings>
-		</Role>
-	</ServiceConfiguration>
+```xml
+<ServiceConfiguration serviceName="MyApp" osFamily="3" osVersion="*" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" schemaVersion="2013-03.2.0">
+	<Role name="MyRole">
+		<Instances count="2" />
+		<ConfigurationSettings>
+			<Setting name="Logentries.Token" value="bb61600f-f766-451e-b55f-9204f536a79f" />
+		</ConfigurationSettings>
+	</Role>
+</ServiceConfiguration>
+```
 
 ### Logging Context Information in Web Applications
 
@@ -305,9 +335,10 @@ In web application it is often helpful to use NLog's built-in ability to log add
 
 Here is an example of how additional web-specific contextual log information can be added to the layout of the Logentries appender in a format that the Logentries parser will recognize and index:
 
-	<target name="logentries" type="Logentries" 
-		layout="${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} ${LEVEL} ${message}${newline}SessionId='${aspnet-sessionid}'; Username='${aspnet-user-identity}'; ${newline}" />
-
+```xml
+<target name="logentries" type="Logentries" 
+	layout="${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} ${LEVEL} ${message}${newline}SessionId='${aspnet-sessionid}'; Username='${aspnet-user-identity}'; ${newline}" />
+```
 
 ### Token-Based Logging vs. HTTP PUT Logging
 
@@ -325,11 +356,15 @@ With installation and configuration out of the way, you are ready to send log da
 
 In each class you wish to log from, add the following using directive at the top if it's not already there:
 
-    using NLog;
+```C#
+using NLog;
+```
 
 Then create a logger object at the class level:
 
-    private static readonly Logger m_logger = LogManager.getCurrentClassLogger();
+```c#
+private static readonly Logger m_logger = LogManager.getCurrentClassLogger();
+```
 
 This creates a logger with the same name as the current class, which organizes the NLog configuration hierarchy according to your code namespace hierarchy. This provides both clarity when reading the logs, and convenience when configuring different log levels for different areas of your code.
 
@@ -337,27 +372,31 @@ Now within your code in that class, you can log using NLog as normal and it will
 
 Examples:
 
-    m_Logger.Debug("Debugging message");
-    m_Logger.Info("Informational message");
-    m_Logger.Warn("Warning message");
-    m_Logger.Error("Error message", ex);
+```C#
+m_Logger.Debug("Debugging message");
+m_Logger.Info("Informational message");
+m_Logger.Warn("Warning message");
+m_Logger.Error("Error message", ex);
+```
 
 Complete code example:
 
-    using NLog
+```c#
+using NLog
 
-    public class HomeController : Controller
+public class HomeController : Controller
+{
+    private static readonly Logger m_Logger = LogManager.getCurrentClassLogger();
+      
+    public ActionResult Index()
     {
-        private static readonly Logger m_Logger = LogManager.getCurrentClassLogger();
-        
-        public ActionResult Index()
-        {
-            m_Logger.Debug("Home page viewed.");       
-            ViewBag.Message = "Welcome to ASP.NET MVC!";       
-            m_Logger.Warn("This is a warning message!");       
-            return View();
-        }
+        m_Logger.Debug("Home page viewed.");       
+        ViewBag.Message = "Welcome to ASP.NET MVC!";       
+        m_Logger.Warn("This is a warning message!");       
+        return View();
     }
+}
+```
 
 ## Troubleshooting
 
@@ -369,10 +408,12 @@ The Logentries target keeps an internal queue of log messages and communicates w
 
 To work around this potential problem, consider adding the following code to your application, which will block for a moment to allow the Logentries appender to finish logging all messages in the queue. The AreAllQueuesEmpty() blocks for a specified time and then returns true or false depending on whether the queues had time to become empty before the method returns.
 
-	public void Application_End()
-	{
-		// This will give LE background thread some time to finish sending messages to Logentries.
-		var numWaits = 3;
-		while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
-			numWaits--;
-	}
+```c#
+public void Application_End()
+{
+	// This will give LE background thread some time to finish sending messages to Logentries.
+	var numWaits = 3;
+	while (!LogentriesCore.Net.AsyncLogger.AreAllQueuesEmpty(TimeSpan.FromSeconds(5)) && numWaits > 0)
+		numWaits--;
+}
+```
