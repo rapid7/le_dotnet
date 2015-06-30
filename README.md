@@ -1,5 +1,7 @@
 # Logging To Logentries.
 
+Hi, I made some changes.
+
 DEMO Session.
 
 Logentries currently has plugins for [NLog](#nlog) and [Log4net](#log4net).
