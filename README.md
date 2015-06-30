@@ -1,5 +1,7 @@
 # Logging To Logentries.
 
+Hi, I made some changes.
+
 DEMO Session.
 
 This is the new demo feature from part 2.
