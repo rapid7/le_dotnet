@@ -1,5 +1,12 @@
 # Logging To Logentries.
 
+Hi, I made some changes.
+
+DEMO Session.
+
+This is the new demo feature from part 2.
+
+
 Logentries currently has plugins for [NLog](#nlog) and [Log4net](#log4net).
 
 To configure your application to log to Logentries, you will need to perform the following tasks:
