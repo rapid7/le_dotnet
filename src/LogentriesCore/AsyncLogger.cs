@@ -611,7 +611,7 @@ namespace LogentriesCore.Net
 
         #region publicMethods
 
-        public virtual void AddLine(string line)
+        public virtual void AddLine(string line, int limit)
         {
             WriteDebugMessages("Adding Line: " + line);
             if (!IsRunning)
@@ -637,19 +637,19 @@ namespace LogentriesCore.Net
             WriteDebugMessages("Queueing: " + line);
             // If individual string is too long add it to the queue recursively as sub-strings
     		if (line.Length > LOG_LENGTH_LIMIT) {
-    			if (!queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT))) {
-    				queue.RemoveAt(0);
-    				if (!queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT)))
-    					dbg(QUEUE_OVERFLOW);
+    			if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT))) {
+    				Queue.Dequeue();
+    				if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT)))
+    					WriteDebugMessages(QUEUE_OVERFLOW);
     			}
     			addLine(line.substring(LOG_LENGTH_LIMIT, line.Length), limit - 1);
     
     		} else {
     			// Try to append data to queue
-    			if (!queue.TryAdd(line)) {
-    				queue.RemoveAt(0);
-    				if (!queue.TryAdd(line))
-    					dbg(QUEUE_OVERFLOW);
+    			if (!Queue.TryAdd(line)) {
+    				Queue.Dequeue();
+    				if (!Queue.TryAdd(line))
+    					WriteDebugMessages(QUEUE_OVERFLOW);
     			}
     		}
             /*String trimmedEvent = line.TrimEnd(TrimChars);
