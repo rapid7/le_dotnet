@@ -63,9 +63,7 @@ namespace LogentriesCore.Net
 
         /** Non-Unix and Unix Newline */
         protected static string[] posix_newline = { "\r\n", "\n" };
-        
-        /** Error message displayed when queue overflow occurs */
-    	protected static string QUEUE_OVERFLOW = "\n\nLogentries Buffer Queue Overflow. Message Dropped!\n\n";
+
 
         /** Unicode line separator character */
         protected static string line_separator = "\u2028";
@@ -640,7 +638,7 @@ namespace LogentriesCore.Net
     			if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT))) {
     				Queue.Dequeue();
     				if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT)))
-    					WriteDebugMessages(QUEUE_OVERFLOW);
+    					WriteDebugMessages(QueueOverflowMessage);
     			}
     			addLine(line.substring(LOG_LENGTH_LIMIT, line.Length), limit - 1);
     
@@ -649,7 +647,7 @@ namespace LogentriesCore.Net
     			if (!Queue.TryAdd(line)) {
     				Queue.Dequeue();
     				if (!Queue.TryAdd(line))
-    					WriteDebugMessages(QUEUE_OVERFLOW);
+    					WriteDebugMessages(QueueOverflowMessage);
     			}
     		}
             /*String trimmedEvent = line.TrimEnd(TrimChars);
