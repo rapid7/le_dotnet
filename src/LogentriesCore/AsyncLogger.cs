@@ -639,7 +639,7 @@ namespace LogentriesCore.Net
     				if (!queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT)))
     					dbg(QUEUE_OVERFLOW);
     			}
-    			addLine(line.substring(LOG_LENGTH_LIMIT, line.length()), limit - 1);
+    			addLine(line.substring(LOG_LENGTH_LIMIT, line.Length), limit - 1);
     
     		} else {
     			// Try to append data to queue
