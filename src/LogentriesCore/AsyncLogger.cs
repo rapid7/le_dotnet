@@ -63,6 +63,9 @@ namespace LogentriesCore.Net
 
         /** Non-Unix and Unix Newline */
         protected static string[] posix_newline = { "\r\n", "\n" };
+        
+        /** Error message displayed when queue overflow occurs */
+    	protected static string QUEUE_OVERFLOW = "\n\nLogentries Buffer Queue Overflow. Message Dropped!\n\n";
 
         /** Unicode line separator character */
         protected static string line_separator = "\u2028";
