@@ -635,9 +635,9 @@ namespace LogentriesCore.Net
             WriteDebugMessages("Queueing: " + line);
             // If individual string is too long add it to the queue recursively as sub-strings
     		if (line.Length > LOG_LENGTH_LIMIT) {
-    			if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT))) {
+    			if (!Queue.TryAdd(line.Substring(0, LOG_LENGTH_LIMIT))) {
     				Queue.Dequeue();
-    				if (!Queue.TryAdd(line.substring(0, LOG_LENGTH_LIMIT)))
+    				if (!Queue.TryAdd(line.Substring(0, LOG_LENGTH_LIMIT)))
     					WriteDebugMessages(QueueOverflowMessage);
     			}
     			addLine(line.substring(LOG_LENGTH_LIMIT, line.Length), limit - 1);
