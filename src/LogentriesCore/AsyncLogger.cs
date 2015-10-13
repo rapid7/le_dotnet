@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Configuration;
 using System.Diagnostics;
@@ -28,8 +28,6 @@ namespace LogentriesCore.Net
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;
 
-        // limit on Log length
-        protected const int LOG_LENGTH_LIMIT = 65536;
         // Minimal delay between attempts to reconnect in milliseconds. 
         protected const int MinDelay = 100;
 
@@ -63,7 +61,6 @@ namespace LogentriesCore.Net
 
         /** Non-Unix and Unix Newline */
         protected static string[] posix_newline = { "\r\n", "\n" };
-
 
         /** Unicode line separator character */
         protected static string line_separator = "\u2028";
@@ -343,8 +340,13 @@ namespace LogentriesCore.Net
                 // Send data in queue.
                 while (true)
                 {
+                    // added debug here
+                    WriteDebugMessages("Await queue data");
+
                     // Take data from queue.
                     var line = Queue.Take();
+                    //added debug message here
+                    WriteDebugMessages("Queue data obtained");
 
                     // Replace newline chars with line separator to format multi-line events nicely.
                     foreach (String newline in posix_newline)
@@ -369,13 +371,22 @@ namespace LogentriesCore.Net
                     {
                         try
                         {
+                            //removed iff loop and added debug message
+                            // Le.Client writes data
+                            WriteDebugMessages("Write data");
                             this.LeClient.Write(data, 0, data.Length);
 
-                            if (m_ImmediateFlush)
+                            WriteDebugMessages("Write complete, flush");
+
+                            // if (m_ImmediateFlush) was removed, always flushed now.
                                 this.LeClient.Flush();
+
+                            WriteDebugMessages("Flush complete");
+
                         }
-                        catch (IOException)
+                        catch (IOException e)
                         {
+                            WriteDebugMessages("IOException during write, reopen: " + e.Message);
                             // Reopen the lost connection.
                             ReopenConnection();
                             continue;
@@ -419,6 +430,7 @@ namespace LogentriesCore.Net
 
         protected virtual void ReopenConnection()
         {
+            WriteDebugMessages("ReopenConnection");
             CloseConnection();
 
             var rootDelay = MinDelay;
@@ -609,7 +621,7 @@ namespace LogentriesCore.Net
 
         #region publicMethods
 
-        public virtual void AddLine(string line, int limit)
+        public virtual void AddLine(string line)
         {
             WriteDebugMessages("Adding Line: " + line);
             if (!IsRunning)
@@ -626,31 +638,15 @@ namespace LogentriesCore.Net
                 // If in DataHub mode credentials are ignored.
                 if (credentialsLoaded || m_UseDataHub)
                 {
-                    WriteDebugMessages("Starting Logentries asynchronous socket client.");
+                    WriteDebugMessages("Starting ITL's TOP SECRET HACK Logentries asynchronous socket client.");
                     WorkerThread.Start();
                     IsRunning = true;
                 }
             }
 
             WriteDebugMessages("Queueing: " + line);
-            // If individual string is too long add it to the queue recursively as sub-strings
-    		if (line.Length > LOG_LENGTH_LIMIT) {
-    			if (!Queue.TryAdd(line.Substring(0, LOG_LENGTH_LIMIT))) {
-    				Queue.Dequeue();
-    				if (!Queue.TryAdd(line.Substring(0, LOG_LENGTH_LIMIT)))
-    					WriteDebugMessages(QueueOverflowMessage);
-    			}
-    			addLine(line.substring(LOG_LENGTH_LIMIT, line.Length), limit - 1);
-    
-    		} else {
-    			// Try to append data to queue
-    			if (!Queue.TryAdd(line)) {
-    				Queue.Dequeue();
-    				if (!Queue.TryAdd(line))
-    					WriteDebugMessages(QueueOverflowMessage);
-    			}
-    		}
-            /*String trimmedEvent = line.TrimEnd(TrimChars);
+
+            String trimmedEvent = line.TrimEnd(TrimChars);
 
             // Try to append data to queue.
             if (!Queue.TryAdd(trimmedEvent))
@@ -658,7 +654,7 @@ namespace LogentriesCore.Net
                 Queue.Take();
                 if (!Queue.TryAdd(trimmedEvent))
                     WriteDebugMessages(QueueOverflowMessage);
-            }*/
+            }
         }
 
         public void interruptWorker()
