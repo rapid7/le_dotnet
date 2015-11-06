@@ -638,7 +638,7 @@ namespace LogentriesCore.Net
                 // If in DataHub mode credentials are ignored.
                 if (credentialsLoaded || m_UseDataHub)
                 {
-                    WriteDebugMessages("Starting ITL's TOP SECRET HACK Logentries asynchronous socket client.");
+                    WriteDebugMessages("Starting Logentries asynchronous socket client.");
                     WorkerThread.Start();
                     IsRunning = true;
                 }
