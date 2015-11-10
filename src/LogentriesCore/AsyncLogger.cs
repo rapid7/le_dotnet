@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Configuration;
 using System.Diagnostics;
@@ -340,8 +340,13 @@ namespace LogentriesCore.Net
                 // Send data in queue.
                 while (true)
                 {
+                    // added debug here
+                    WriteDebugMessages("Await queue data");
+
                     // Take data from queue.
                     var line = Queue.Take();
+                    //added debug message here
+                    WriteDebugMessages("Queue data obtained");
 
                     // Replace newline chars with line separator to format multi-line events nicely.
                     foreach (String newline in posix_newline)
@@ -366,13 +371,22 @@ namespace LogentriesCore.Net
                     {
                         try
                         {
+                            //removed iff loop and added debug message
+                            // Le.Client writes data
+                            WriteDebugMessages("Write data");
                             this.LeClient.Write(data, 0, data.Length);
 
-                            if (m_ImmediateFlush)
+                            WriteDebugMessages("Write complete, flush");
+
+                            // if (m_ImmediateFlush) was removed, always flushed now.
                                 this.LeClient.Flush();
+
+                            WriteDebugMessages("Flush complete");
+
                         }
-                        catch (IOException)
+                        catch (IOException e)
                         {
+                            WriteDebugMessages("IOException during write, reopen: " + e.Message);
                             // Reopen the lost connection.
                             ReopenConnection();
                             continue;
@@ -416,6 +430,7 @@ namespace LogentriesCore.Net
 
         protected virtual void ReopenConnection()
         {
+            WriteDebugMessages("ReopenConnection");
             CloseConnection();
 
             var rootDelay = MinDelay;
