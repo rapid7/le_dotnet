@@ -1,5 +1,8 @@
 # Logging To Logentries.
 
+[![Version](https://img.shields.io/nuget/v/Logentries.nlog.svg?label=nuget NLog)](https://www.nuget.org/packages/Logentries.nlog) 
+[![Version](https://img.shields.io/nuget/v/Logentries.log4net.svg?label=nuget Log4Net)](https://www.nuget.org/packages/Logentries.log4net) 
+
 Logentries currently has plugins for [NLog](#nlog) and [Log4net](#log4net).
 
 To configure your application to log to Logentries, you will need to perform the following tasks:
