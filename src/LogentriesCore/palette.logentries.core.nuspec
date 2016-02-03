@@ -6,7 +6,7 @@
     <title>Palette LogEntries Core Library</title>
     <authors>Mark Lacomber</authors>
     <owners>Palette Software</owners>
-    <projectUrl>https://github.com/logentries/le_dotnet</projectUrl>
+    <projectUrl>https://github.com/palette-software/le_dotnet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Palette customization for logentries.core. LogEntries.core is a library for LogEntries to be used by other libraries that extend logging software, such as log4net and NLog. Logentries is a real-time log management service on the cloud. More info at https://logentries.com</description>
     <copyright>Copyright 2016</copyright>
