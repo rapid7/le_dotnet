@@ -300,7 +300,7 @@ namespace LogentriesCore.Net
                             WriteDebugMessages("HostName parameter is not defined - trying to get it from System.Environment.MachineName");
                             m_HostName = "HostName=" + System.Environment.MachineName + " ";
                         }
-                        catch (InvalidOperationException ex)
+                        catch (InvalidOperationException)
                         {
                             // Cannot get host name automatically, so assume that HostName is not used
                             // and log message is sent without it.
