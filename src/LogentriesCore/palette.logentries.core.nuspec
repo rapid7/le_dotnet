@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>palette.logentries.core</id>
+    <version>0.0.1</version>
+    <title>Palette LogEntries Core Library</title>
+    <authors>Mark Lacomber</authors>
+    <owners>Palette Software</owners>
+    <projectUrl>https://github.com/logentries/le_dotnet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Palette customization for logentries.core. LogEntries.core is a library for LogEntries to be used by other libraries that extend logging software, such as log4net and NLog. Logentries is a real-time log management service on the cloud. More info at https://logentries.com</description>
+    <copyright>Copyright 2016</copyright>
+    <tags>logging Logentries log</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1.0" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
