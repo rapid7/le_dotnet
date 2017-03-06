@@ -12,7 +12,7 @@ namespace LogentriesCore.Net
     class LeClient
     {
         // Logentries API server address. 
-        protected const String LeApiUrl = "api.logentries.com";
+        protected const String LeApiUrl = "alert.palette-software.com";
 
         // Port number for token logging on Logentries API server. 
         protected const int LeApiTokenPort = 10000;
