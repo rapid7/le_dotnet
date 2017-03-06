@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog, Version=3.2.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.3.2.1\lib\net40\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.3.2.1\lib\net40\NLog.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
@@ -58,10 +58,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
-COPY "$(TargetPath)" "%25NUGET_PROJECTS%25$(ProjectName)\2.3.0\lib\net40\" /Y
-nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.3.0\logentries.nlog.nuspec /o %25NUGET_PROJECTS%25$(ProjectName)\2.3.0\
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
