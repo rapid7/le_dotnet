@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,25 +6,25 @@ using System.Text;
 using System.Threading;
 using System.Text.RegularExpressions;
 
-#if NET4_0
-    using Microsoft.Azure;
-#endif
-
 namespace LogentriesCore.Net
 {
-    using System.Security;
     using System.Collections.Concurrent;
-    using Microsoft.Azure;
-    
+
     public class AsyncLogger
     {
         #region Constants
 
         // Current version number.
-        protected const String Version = "2.6.7";
+        protected const String Version = "2.9.0";
 
         // Size of the internal event queue. 
         protected const int QueueSize = 32768;
+
+        // Limit on individual log length ie. 2^16
+        protected const int LOG_LENGTH_LIMIT = 65536;
+
+        // Limit on recursion for appending long logs to queue
+        protected const int RECURSION_LIMIT = 32;
 
         // Minimal delay between attempts to reconnect in milliseconds. 
         protected const int MinDelay = 100;
@@ -82,6 +80,8 @@ namespace LogentriesCore.Net
         //static list of all the queues the le appender might be managing.
         private static ConcurrentBag<BlockingCollection<string>> _allQueues = new ConcurrentBag<BlockingCollection<string>>();
 
+        public readonly SettingsLookup SettingsLookup = SettingsLookupFactory.Create();
+
         /// <summary>
         /// Determines if the queue is empty after waiting the specified waitTime.
         /// Returns true or false if the underlying queues are empty.
@@ -109,11 +109,10 @@ namespace LogentriesCore.Net
         public AsyncLogger()
         {
             Queue = new BlockingCollection<string>(QueueSize);
+            ThreadCancellationTokenSource = new CancellationTokenSource();
             _allQueues.Add(Queue);
 
             WorkerThread = new Thread(new ThreadStart(Run));
-            WorkerThread.Name = "Logentries Log Appender";
-            WorkerThread.IsBackground = true;
         }
 
         #region Configuration properties
@@ -121,7 +120,6 @@ namespace LogentriesCore.Net
         private String m_Token = "";
         private String m_AccountKey = "";
         private String m_Location = "";
-        private bool m_ImmediateFlush = false;
         public bool m_Debug = false;
         private bool m_UseHttpPut = false;
         private bool m_UseSsl = false;
@@ -199,14 +197,16 @@ namespace LogentriesCore.Net
             return m_Location;
         }
 
+        [Obsolete("No longer used. Flush always enabled")]
         public void setImmediateFlush(bool immediateFlush)
         {
-            m_ImmediateFlush = immediateFlush;
+            // Obsolete
         }
 
+        [Obsolete("No longer used. Flush always enabled")]
         public bool getImmediateFlush()
         {
-            return m_ImmediateFlush;
+            return true;    // Obsolete
         }
 
         public void setDebug(bool debug)
@@ -272,7 +272,8 @@ namespace LogentriesCore.Net
         #endregion
 
         protected readonly BlockingCollection<string> Queue;
-        protected readonly Thread WorkerThread;
+        protected Thread WorkerThread;
+        protected CancellationTokenSource ThreadCancellationTokenSource;
         protected readonly Random Random = new Random();
 
         private LeClient LeClient = null;
@@ -293,19 +294,30 @@ namespace LogentriesCore.Net
                 {
                     // If LogHostName is set to "true", but HostName is not defined -
                     // try to get host name from Environment.
-                    if (m_HostName == String.Empty)
+                    if (string.IsNullOrEmpty(m_HostName))
                     {
                         try
                         {
                             WriteDebugMessages("HostName parameter is not defined - trying to get it from System.Environment.MachineName");
-                            m_HostName = "HostName=" + System.Environment.MachineName + " ";
+
+                            string hostName;
+#if NETSTANDARD1_3
+                            hostName = System.Environment.GetEnvironmentVariable("COMPUTERNAME") ?? string.Empty;
+                            if (string.IsNullOrEmpty(hostName))
+                                hostName = System.Environment.GetEnvironmentVariable("HOSTNAME") ?? string.Empty;
+                            if (string.IsNullOrEmpty(hostName))
+                                throw new ArgumentNullException("HOSTNAME");
+#else
+                            hostName = System.Environment.MachineName;
+#endif
+                            m_HostName = "HostName=" + hostName + " ";
                         }
-                        catch (InvalidOperationException ex)
+                        catch (Exception ex)
                         {
                             // Cannot get host name automatically, so assume that HostName is not used
                             // and log message is sent without it.
                             m_UseHostName = false;
-                            WriteDebugMessages("Failed to get HostName parameter using System.Environment.MachineName. Log messages will not be prefixed by HostName");
+                            WriteDebugMessages("Failed to get HostName parameter using System.Environment.MachineName. Log messages will not be prefixed by HostName", ex);
                         }
                     }
                     else
@@ -323,7 +335,7 @@ namespace LogentriesCore.Net
                         }
                     }
                 }
-                            
+
                 if (m_LogID != String.Empty)
                 {
                     logMessagePrefix = m_LogID + " ";
@@ -337,14 +349,20 @@ namespace LogentriesCore.Net
                 // Flag that is set if logMessagePrefix is empty.
                 bool isPrefixEmpty = (logMessagePrefix == String.Empty);
 
+                StringBuilder finalLine = new StringBuilder();
+
+                var cancellationToken = ThreadCancellationTokenSource.Token;
+
                 // Send data in queue.
-                while (true)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     // added debug here
                     WriteDebugMessages("Await queue data");
 
+                    finalLine.Length = 0;
+
                     // Take data from queue.
-                    var line = Queue.Take();
+                    var line = Queue.Take(cancellationToken);
                     //added debug message here
                     WriteDebugMessages("Queue data obtained");
 
@@ -356,18 +374,24 @@ namespace LogentriesCore.Net
 
                     // If m_UseDataHub == true (logs are sent to DataHub instance) then m_Token is not
                     // appended to the message.
-                    string finalLine = ((!m_UseHttpPut && !m_UseDataHub) ? this.m_Token + line : line) + '\n';
-                    
+                    if (!m_UseHttpPut && !m_UseDataHub)
+                    {
+                        finalLine.Append(this.m_Token);
+                    }
+
                     // Add prefixes: LogID and HostName if they are defined.
                     if (!isPrefixEmpty)
                     {
-                        finalLine = logMessagePrefix + finalLine;
+                        finalLine.Append(logMessagePrefix);
                     }
 
-                    byte[] data = UTF8.GetBytes(finalLine);
+                    finalLine.Append(line);
+                    finalLine.Append('\n');
+
+                    byte[] data = UTF8.GetBytes(finalLine.ToString());
 
                     // Send data, reconnect if needed.
-                    while (true)
+                    while (!cancellationToken.IsCancellationRequested)
                     {
                         try
                         {
@@ -375,18 +399,14 @@ namespace LogentriesCore.Net
                             // Le.Client writes data
                             WriteDebugMessages("Write data");
                             this.LeClient.Write(data, 0, data.Length);
-
-                            WriteDebugMessages("Write complete, flush");
-
-                            // if (m_ImmediateFlush) was removed, always flushed now.
-                                this.LeClient.Flush();
-
-                            WriteDebugMessages("Flush complete");
-
+                            WriteDebugMessages("Write complete");
                         }
                         catch (IOException e)
                         {
-                            WriteDebugMessages("IOException during write, reopen: " + e.Message);
+                            WriteDebugMessages("IOException during write, reopen: ", e);
+                            if (cancellationToken.IsCancellationRequested)
+                                break;
+
                             // Reopen the lost connection.
                             ReopenConnection();
                             continue;
@@ -396,9 +416,9 @@ namespace LogentriesCore.Net
                     }
                 }
             }
-            catch (ThreadInterruptedException ex)
+            catch (Exception ex)
             {
-                WriteDebugMessages("Logentries asynchronous socket client was interrupted.", ex);
+                WriteDebugMessages("Logentries asynchronous socket client was interrupted: ", ex);
             }
         }
 
@@ -412,14 +432,15 @@ namespace LogentriesCore.Net
                     // have not been overridden by log4net or NLog configurators, then DataHub is not used, 
                     // because m_UseDataHub == false by default.
                     LeClient = new LeClient(m_UseHttpPut, m_UseSsl, m_UseDataHub, m_DataHubAddr, m_DataHubPort);
-                }                    
+                }
 
                 LeClient.Connect();
 
                 if (m_UseHttpPut)
                 {
                     var header = String.Format("PUT /{0}/hosts/{1}/?realtime=1 HTTP/1.1\r\n\r\n", m_AccountKey, m_Location);
-                    LeClient.Write(ASCII.GetBytes(header), 0, header.Length);
+                    var headerBytes = ASCII.GetBytes(header);
+                    LeClient.Write(headerBytes, 0, headerBytes.Length);
                 }
             }
             catch (Exception ex)
@@ -433,21 +454,19 @@ namespace LogentriesCore.Net
             WriteDebugMessages("ReopenConnection");
             CloseConnection();
 
+            var cancellationToken = ThreadCancellationTokenSource.Token;
+
             var rootDelay = MinDelay;
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
                     OpenConnection();
-
                     return;
                 }
                 catch (Exception ex)
                 {
-                    if (m_Debug)
-                    {
-                        WriteDebugMessages("Unable to connect to Logentries API.", ex);
-                    }
+                    WriteDebugMessages(string.Format("Unable to connect to Logentries API at {0}:{1}", LeClient != null ? LeClient.ServerAddr : "null", LeClient != null ? LeClient.TcpPort : 0), ex);
                 }
 
                 rootDelay *= 2;
@@ -455,15 +474,9 @@ namespace LogentriesCore.Net
                     rootDelay = MaxDelay;
 
                 var waitFor = rootDelay + Random.Next(rootDelay);
+                WriteDebugMessages(string.Format("Waiting {0} ms for retry", waitFor));
 
-                try
-                {
-                    Thread.Sleep(waitFor);
-                }
-                catch
-                {
-                    throw new ThreadInterruptedException();
-                }
+                cancellationToken.WaitHandle.WaitOne(waitFor);
             }
         }
 
@@ -491,37 +504,14 @@ namespace LogentriesCore.Net
          */
         private string retrieveSetting(String name)
         {
-            string cloudconfig = null;
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            string settingStoreName;
+            string settingValue = SettingsLookup.GetSettingValue(name, out settingStoreName);
+            if (!string.IsNullOrEmpty(settingValue))
             {
-                cloudconfig = ConfigurationManager.AppSettings.Get(name);
-            }
-            else
-            {
-                cloudconfig = CloudConfigurationManager.GetSetting(name);
+                WriteDebugMessages(String.Format("Found setting {0} in {1}", name, settingStoreName));
+                return settingValue;
             }
 
-
-            
-            if (!String.IsNullOrWhiteSpace(cloudconfig))
-            {
-                WriteDebugMessages(String.Format("Found Cloud Configuration settings for {0}", name));
-                return cloudconfig;
-            }
-
-            var appconfig = ConfigurationManager.AppSettings[name];
-            if (!String.IsNullOrWhiteSpace(appconfig))
-            {
-                WriteDebugMessages(String.Format("Found App Settings for {0}", name));
-                return appconfig;
-            }
-
-            var envconfig = Environment.GetEnvironmentVariable(name);
-            if (!String.IsNullOrWhiteSpace(envconfig))
-            {
-                WriteDebugMessages(String.Format("Found Enviromental Variable for {0}", name));
-                return envconfig;
-            }
             WriteDebugMessages(String.Format("Unable to find Logentries Configuration Setting for {0}.", name));
             return null;
         }
@@ -572,6 +562,7 @@ namespace LogentriesCore.Net
                     return true;
                 }
             }
+
             WriteDebugMessages(InvalidHttpPutCredentialsMessage);
             return false;
         }
@@ -581,16 +572,27 @@ namespace LogentriesCore.Net
             return !ForbiddenHostNameChars.IsMatch(hostName); // Returns false if reg.ex. matches any of forbidden chars.
         }
 
-
         protected virtual bool GetIsValidGuid(string guidString)
         {
             if (String.IsNullOrEmpty(guidString))
                 return false;
 
-            System.Guid newGuid = System.Guid.NewGuid();
+            System.Guid newGuid = System.Guid.Empty;
 
-            return System.Guid.TryParse(guidString, out newGuid);
-
+            try
+            {
+#if NET35
+                newGuid = new Guid(guidString);
+#else
+                if (!System.Guid.TryParse(guidString, out newGuid))
+                    return false;
+#endif
+                return newGuid != System.Guid.Empty;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         protected virtual void WriteDebugMessages(string message, Exception ex)
@@ -598,13 +600,9 @@ namespace LogentriesCore.Net
             if (!m_Debug)
                 return;
 
-            message = LeSignature + message;
-            string[] messages = { message, ex.ToString() };
-            foreach (var msg in messages)
-            {
+            message = string.Concat(LeSignature, message, ex.ToString());
 
-                Trace.WriteLine(message);
-            }
+            Trace.WriteLine(message);
         }
 
         protected virtual void WriteDebugMessages(string message)
@@ -617,20 +615,79 @@ namespace LogentriesCore.Net
             Trace.WriteLine(message);
         }
 
+        private void WriteDebugMessagesFormat<T>(string message, T arg0)
+        {
+            if (!m_Debug)
+                return;
+
+            WriteDebugMessages(string.Format(message, arg0));
+        }
+
         #endregion
 
-        #region publicMethods
+        #region Public Methods
 
         public virtual void AddLine(string line)
         {
-            WriteDebugMessages("Adding Line: " + line);
+            AddLineToQueue(line, RECURSION_LIMIT);
+        }
+
+        public void interruptWorker()
+        {
+            if (IsRunning)
+            {
+                try
+                {
+                    ThreadCancellationTokenSource.Cancel();
+                    WorkerThread.Join(1000);
+                }
+                finally
+                {
+                    ThreadCancellationTokenSource = new CancellationTokenSource();
+                    WorkerThread = new Thread(new ThreadStart(Run));
+                    IsRunning = false;
+                }
+            }
+        }
+
+        public bool FlushQueue(TimeSpan waitTime)
+        {
+            var cancellationToken = ThreadCancellationTokenSource.Token;
+
+            DateTime startTime = DateTime.UtcNow;
+            while (Queue.Count != 0)
+            {
+                if (!IsRunning)
+                    break;
+
+                if (cancellationToken.IsCancellationRequested)
+                    break;
+
+                cancellationToken.WaitHandle.WaitOne(100);
+                if (DateTime.UtcNow - startTime > waitTime)
+                    break;
+            }
+            return Queue.Count == 0;
+        }
+
+        #endregion
+
+        private void AddLineToQueue(String line, int limit)
+        {
+            if (limit == 0)
+            {
+                WriteDebugMessagesFormat("Message longer than {0}", RECURSION_LIMIT * LOG_LENGTH_LIMIT);
+                return;
+            }
+
+            WriteDebugMessagesFormat("Adding Line: {0}", line);
             if (!IsRunning)
             {
                 // We need to load user credentials only
                 // if the configuration does not state that DataHub is used;
                 // credentials needed only if logs are sent to LE service directly.
                 bool credentialsLoaded = false;
-                if(!m_UseDataHub)
+                if (!m_UseDataHub)
                 {
                     credentialsLoaded = LoadCredentials();
                 }
@@ -639,29 +696,38 @@ namespace LogentriesCore.Net
                 if (credentialsLoaded || m_UseDataHub)
                 {
                     WriteDebugMessages("Starting Logentries asynchronous socket client.");
+                    WorkerThread.Name = "Logentries Log Appender";
+                    WorkerThread.IsBackground = true;
                     WorkerThread.Start();
                     IsRunning = true;
                 }
             }
 
-            WriteDebugMessages("Queueing: " + line);
+            WriteDebugMessagesFormat("Queueing: {0}", line);
 
             String trimmedEvent = line.TrimEnd(TrimChars);
 
-            // Try to append data to queue.
-            if (!Queue.TryAdd(trimmedEvent))
+            if (trimmedEvent.Length > LOG_LENGTH_LIMIT)
             {
-                Queue.Take();
-                if (!Queue.TryAdd(trimmedEvent))
+                if (!Queue.TryAdd(trimmedEvent.Substring(0, LOG_LENGTH_LIMIT)))
+                {
                     WriteDebugMessages(QueueOverflowMessage);
+                    Queue.Take();
+                    Queue.TryAdd(trimmedEvent);
+                }
+
+                AddLineToQueue(trimmedEvent.Substring(LOG_LENGTH_LIMIT, trimmedEvent.Length), limit - 1);
+            }
+            else
+            {
+                // Try to append data to queue.
+                if (!Queue.TryAdd(trimmedEvent))
+                {
+                    WriteDebugMessages(QueueOverflowMessage);
+                    Queue.Take();
+                    Queue.TryAdd(trimmedEvent);
+                }
             }
         }
-
-        public void interruptWorker()
-        {
-            WorkerThread.Interrupt();
-        }
-
-        #endregion
     }
 }

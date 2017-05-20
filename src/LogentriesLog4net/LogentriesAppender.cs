@@ -9,18 +9,42 @@ using LogentriesCore.Net;
 
 namespace log4net.Appender
 {
-    public class LogentriesAppender : AppenderSkeleton
+    public class LogentriesAppender : AppenderSkeleton, IAsyncLoggerConfig
     {
-        private AsyncLogger logentriesAsync;
+        class Log4netAsyncLogger : AsyncLogger
+        {
+            protected override void WriteDebugMessages(string message, Exception ex)
+            {
+                base.WriteDebugMessages(message, ex);
+                log4net.Util.LogLog.Warn(GetType(), message, ex);
+            }
+
+            public override bool LoadCredentials()
+            {
+                bool success = base.LoadCredentials();
+                if (!success)
+                {
+                    if (getUseHttpPut())
+                    {
+                        log4net.Util.LogLog.Warn(GetType(), "Failed to load credentials for LogEntries (PUT), please check LOGENTRIES_ACCOUNT_KEY or LOGENTRIES_LOCATION configuration");
+                    }
+                    else
+                    {
+                        log4net.Util.LogLog.Warn(GetType(), "Failed to load credentials for LogEntries (GET), please check LOGENTRIES_TOKEN configuration");
+                    }
+                }
+                return success;
+            }
+        }
+
+        private Log4netAsyncLogger logentriesAsync;
 
         public LogentriesAppender()
         {
-            logentriesAsync = new AsyncLogger();
+            logentriesAsync = new Log4netAsyncLogger();
         }
 
-        #region attributeMethods
-
-        /* Option to set LOGENTRIES_TOKEN programmatically or in appender definition. */
+        /// <inheritdoc />
         public string Token
         {
             get
@@ -33,8 +57,8 @@ namespace log4net.Appender
             }
         }
 
-        /* Option to set LOGENTRIES_ACCOUNT_KEY programmatically or in appender definition. */
-        public String AccountKey
+        /// <inheritdoc />
+        public string AccountKey
         {
             get
             {
@@ -46,8 +70,8 @@ namespace log4net.Appender
             }
         }
 
-        /* Option to set LOGENTRIES_LOCATION programmatically or in appender definition. */
-        public String Location
+        /// <inheritdoc />
+        public string Location
         {
             get
             {
@@ -59,20 +83,7 @@ namespace log4net.Appender
             }
         }
 
-        /* Set to true to always flush the TCP stream after every written entry. */
-        public bool ImmediateFlush
-        {
-            get
-            {
-                return logentriesAsync.getImmediateFlush();
-            }
-            set
-            {
-                logentriesAsync.setImmediateFlush(value);
-            }
-        }
-
-        /* Debug flag. */
+        /// <inheritdoc />
         public bool Debug
         {
             get
@@ -85,8 +96,7 @@ namespace log4net.Appender
             }
         }
 
-
-        /* Set to true to use HTTP PUT logging. */
+        /// <inheritdoc />
         public bool UseHttpPut
         {
             get
@@ -99,22 +109,7 @@ namespace log4net.Appender
             }
         }
 
-        /* This property exists for backward compatibility with older configuration XML. */
-        [Obsolete("Use the UseHttpPut property instead.")]
-        public bool HttpPut
-        {
-            get
-            {
-                return logentriesAsync.getUseHttpPut();
-            }
-            set
-            {
-                logentriesAsync.setUseHttpPut(value);
-            }
-        }
-
-
-        /* Set to true to use SSL with HTTP PUT logging. */
+        /// <inheritdoc />
         public bool UseSsl
         {
             get
@@ -127,46 +122,46 @@ namespace log4net.Appender
             }
         }
 
-        /* Is using DataHub parameter flag. - set to true to use DataHub server */
+        /// <inheritdoc />
         public bool IsUsingDataHub
         {
-            get 
-            { 
-                return logentriesAsync.getIsUsingDataHab(); 
+            get
+            {
+                return logentriesAsync.getIsUsingDataHab();
             }
-            set 
-            { 
-                logentriesAsync.setIsUsingDataHub(value); 
+            set
+            {
+                logentriesAsync.setIsUsingDataHub(value);
             }
         }
 
-        /* DataHub server address */
-        public String DataHubAddr
+        /// <inheritdoc />
+        public string DataHubAddress
         {
-            get 
-            { 
-                return logentriesAsync.getDataHubAddr(); 
+            get
+            {
+                return logentriesAsync.getDataHubAddr();
             }
-            set 
-            { 
-                logentriesAsync.setDataHubAddr(value); 
+            set
+            {
+                logentriesAsync.setDataHubAddr(value);
             }
         }
 
-        /* DataHub server port */
+        /// <inheritdoc />
         public int DataHubPort
         {
-            get 
-            { 
-                return logentriesAsync.getDataHubPort(); 
+            get
+            {
+                return logentriesAsync.getDataHubPort();
             }
-            set 
-            { 
-                logentriesAsync.setDataHubPort(value); 
+            set
+            {
+                logentriesAsync.setDataHubPort(value);
             }
         }
 
-        /* Switch that defines whether add host name to the log message */
+        /// <inheritdoc />
         public bool LogHostname
         {
             get
@@ -179,7 +174,7 @@ namespace log4net.Appender
             }
         }
 
-        /* User-defined host name. If empty the library will try to obtain it automatically */
+        /// <inheritdoc />
         public String HostName
         {
             get
@@ -192,7 +187,7 @@ namespace log4net.Appender
             }
         }
 
-        /* User-defined log message ID */
+        /// <inheritdoc />
         public String LogID
         {
             get
@@ -205,21 +200,53 @@ namespace log4net.Appender
             }
         }
 
+        [Obsolete("No longer used. Flush always enabled")]
+        public bool ImmediateFlush
+        {
+            get { return true; } set { }
+        }
+
+        /* This property exists for backward compatibility with older configuration XML. */
+        [Obsolete("Use the UseHttpPut property instead.")]
+        public bool HttpPut
+        {
+            get
+            {
+                return UseHttpPut;
+            }
+            set
+            {
+                UseHttpPut = value;
+            }
+        }
+
         /* This property exists for backward compatibility with older configuration XML. */
         [Obsolete("Use the UseSsl property instead.")]
         public bool Ssl
         {
             get
             {
-                return logentriesAsync.getUseSsl();
+                return UseSsl;
             }
             set
             {
-                logentriesAsync.setUseSsl(value);
+                UseSsl = value;
             }
         }
 
-        #endregion
+        /* This property exists for backward compatibility with older configuration XML. */
+        [Obsolete("Use the DataHubAddress property instead.")]
+        public String DataHubAddr
+        {
+            get
+            {
+                return DataHubAddress;
+            }
+            set
+            {
+                DataHubAddress = value;
+            }
+        }
 
         protected override void Append(LoggingEvent loggingEvent)
         {
@@ -241,6 +268,11 @@ namespace log4net.Appender
             {
                 return true;
             }
+        }
+
+        public override bool Flush(int millisecondsTimeout)
+        {
+            return logentriesAsync.FlushQueue(TimeSpan.FromMilliseconds(millisecondsTimeout));
         }
 
         protected override void OnClose()

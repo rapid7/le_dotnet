@@ -1,24 +1,18 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace LogentriesCore.Net
 {
     class LeClient
     {
+        /** Logentries API server address for Token-based input. */
+        protected const String LeTokenApi = "data.logentries.com";
+
         // Logentries API server address. 
         protected const String LeApiUrl = "api.logentries.com";
-
-        // Port number for token logging on Logentries API server. 
-        protected const int LeApiTokenPort = 10000;
-
-        // Port number for TLS encrypted token logging on Logentries API server 
-        protected const int LeApiTokenTlsPort = 20000;
 
         // Port number for HTTP PUT logging on Logentries API server. 
         protected const int LeApiHttpPort = 80;
@@ -31,31 +25,27 @@ namespace LogentriesCore.Net
         // defined server on defined port.
         public LeClient(bool useHttpPut, bool useSsl, bool useDataHub, String serverAddr, int port)
         {
-            
             // Override port number and server address to send logs to DataHub instance.
             if (useDataHub)
             {
                 m_UseSsl = false; // DataHub does not support receiving log messages over SSL for now.
-                m_TcpPort = port;
-                m_ServerAddr = serverAddr;
+                TcpPort = port;
+                ServerAddr = serverAddr;
             }
             else
             {
                 m_UseSsl = useSsl;
-
-                if (!m_UseSsl)
-                    m_TcpPort = useHttpPut ? LeApiHttpPort : LeApiTokenPort;
-                else
-                    m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
-            }            
+                TcpPort = m_UseSsl ? LeApiHttpsPort : LeApiHttpPort;
+                ServerAddr = useHttpPut ? LeApiUrl : LeTokenApi;
+            }
         }
 
         private bool m_UseSsl = false;
-        private int m_TcpPort;
+        public int TcpPort { get; private set; }
         private TcpClient m_Client = null;
         private Stream m_Stream = null;
         private SslStream m_SslStream = null;
-        private String m_ServerAddr = LeApiUrl; // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
+        public String ServerAddr { get; private set; } // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
 
         private Stream ActiveStream
         {
@@ -90,37 +80,55 @@ namespace LogentriesCore.Net
 
         public void Connect()
         {
-            m_Client = new TcpClient(m_ServerAddr, m_TcpPort);
+            m_Client = new TcpClient();
+#if NETSTANDARD1_3
+            m_Client.ConnectAsync(ServerAddr, TcpPort).Wait();
+#else
+            m_Client.Connect(ServerAddr, TcpPort);
+#endif
             m_Client.NoDelay = true;
 
             // on Azure sockets will be closed after some minutes idle.
             // which for some reason messes up this library causing it to lose data.
-            
+
             // turn on keepalive, to keep the sockets open.
             // I don't really understand why this helps the problem, since the socket already has NoDelay set
             // so data should be sent immediately. And indeed it does appear to be sent promptly when it works.
-            m_Client.Client.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+            m_Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
-            // set timeouts to 10 seconds idle before keepalive, 1 second between repeats, 
-            SetSocketKeepAliveValues(m_Client, 10 *1000, 1000);
-            
+            // set timeouts to 10 seconds idle before keepalive, 1 second between repeats,
+#if NETSTANDARD1_3
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    SetSocketKeepAliveValues(m_Client, 10 * 1000, 1000);
+                }
+            }
+            catch (PlatformNotSupportedException)
+            {
+                // .net core on linux does not support modification of that settings at the moment. defaults applied.
+            }
+#else
+            SetSocketKeepAliveValues(m_Client, 10 * 1000, 1000);
+#endif
+
             m_Stream = m_Client.GetStream();
 
             if (m_UseSsl)
             {
                 m_SslStream = new SslStream(m_Stream);
-                m_SslStream.AuthenticateAsClient(m_ServerAddr);
-
+#if NETSTANDARD1_3
+                m_SslStream.AuthenticateAsClientAsync(ServerAddr).Wait();
+#else
+                m_SslStream.AuthenticateAsClient(ServerAddr);
+#endif
             }
         }
 
         public void Write(byte[] buffer, int offset, int count)
         {
             ActiveStream.Write(buffer, offset, count);
-        }
-
-        public void Flush()
-        {
             ActiveStream.Flush();
         }
 
@@ -130,10 +138,16 @@ namespace LogentriesCore.Net
             {
                 try
                 {
-                    m_Client.Close();
+                    ((IDisposable)m_Client).Dispose();
                 }
                 catch
                 {
+                }
+                finally
+                {
+                    m_Client = null;
+                    m_Stream = null;
+                    m_SslStream = null;
                 }
             }
         }
