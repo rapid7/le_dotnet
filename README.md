@@ -1,3 +1,7 @@
+# Using InsightOps?
+Please use our updated [libraries] which support specifying the region to send your log data to: 
+[NLog](https://insightops.help.rapid7.com/docs/nlog) and [Log4Net](https://insightops.help.rapid7.com/docs/log4net).
+
 # Logging To Logentries.
 
 Logentries currently has plugins for NLog, Log4net and Serilog.
