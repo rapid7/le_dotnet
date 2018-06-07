@@ -1,6 +1,5 @@
 # Using InsightOps?
-Please use our updated [libraries] which support specifying the region to send your log data to: 
-[NLog](https://insightops.help.rapid7.com/docs/nlog) and [Log4Net](https://insightops.help.rapid7.com/docs/log4net).
+Please use our [updated library](https://github.com/rapid7/r7insight_dotnet) which supports specifying the region to send your log data to.
 
 # Logging To Logentries.
 
