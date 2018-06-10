@@ -46,8 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncLogger.cs" />
+    <Compile Include="IAsyncLoggerConfig.cs" />
     <Compile Include="LeClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsLookup.cs" />
+    <Compile Include="SettingsLookupFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
