@@ -38,6 +38,3 @@ Visit [Log4Net](https://docs.logentries.com/docs/log4net)
 ## Serilog
 
 Visit [Serilog](https://docs.logentries.com/docs/net-serilog)
-
-## Contact Support
-Please email our support team at support@logentries.com if you need any help.
