@@ -1,18 +1,15 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace LogentriesCore.Net
 {
     class LeClient
     {
         // Logentries API server address. 
-        protected const String LeApiUrl = "api.logentries.com";
+        protected const String LeApiUrl = "data.logentries.com";
 
         // Port number for token logging on Logentries API server. 
         protected const int LeApiTokenPort = 10000;
