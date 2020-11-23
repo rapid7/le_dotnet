@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -12,6 +13,20 @@
     <AssemblyName>LogentriesCore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PackageId>logentries.core</PackageId>
+    <PackageVersion>2.8.1</PackageVersion>
+    <Authors>Logentries</Authors>
+    <Copyright>Copyright © 2020</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>https://github.com/rapid7/le_dotnet/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <Owners>Logentries</Owners>
+    <PackageProjectUrl>https://github.com/rapid7/le_dotnet/</PackageProjectUrl>
+    <PackageReleaseNotes>Switch ingestion endpoint from legacy deprecated one.</PackageReleaseNotes>
+    <Summary>Logentries logging core library for dotnet support.</Summary>
+    <PackageTags>logentries;logging;dotnet;</PackageTags>
+    <Title>LogentriesCore</Title>
+    <Description>Logentries logging core library for dotnet support.</Description>
+    <PackOnBuild>true</PackOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,12 +68,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
-COPY "$(TargetPath)" "%25NUGET_PROJECTS%25$(ProjectName)\2.6.0\lib\net40\" /Y
-nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.6.0\logentries.core.nuspec /o %25NUGET_PROJECTS%25$(ProjectName)\2.6.0\
-)</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -66,4 +75,5 @@ nuget pack %25NUGET_PROJECTS%25$(ProjectName)\2.6.0\logentries.core.nuspec /o %2
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.targets')" />
 </Project>
