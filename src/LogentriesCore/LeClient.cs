@@ -52,7 +52,7 @@ namespace LogentriesCore.Net
         private TcpClient m_Client = null;
         private Stream m_Stream = null;
         private SslStream m_SslStream = null;
-        private String m_ServerAddr = LeApiUrl; // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
+        private String m_ServerAddr = LeIngestionHost; // By default m_ServerAddr points to api.logentries.com if useDataHub is not set to true.
 
         private Stream ActiveStream
         {
