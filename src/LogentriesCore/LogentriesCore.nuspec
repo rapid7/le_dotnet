@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>logentries.log4net</id>
+    <id>logentries.core</id>
     <version>2.8.3</version>
-    <title>logentries.log4net</title>
+    <title>logentries.core</title>
     <authors>Logentries</authors>
     <owners>Logentries</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/rapid7/le_dotnet/</projectUrl>
-    <description>Logentries logging library support for Log4Net</description>
+    <description>Logentries logging library core</description>
     <releaseNotes>Switch ingestion endpoint from legacy deprecated one.</releaseNotes>
     <copyright>Copyright © 2020</copyright>
-    <tags>logentries logging dotnet log4net</tags>
+    <tags>logentries logging dotnet core</tags>
   </metadata>
   <files>
-    <file src="bin\Release\LogentriesLog4net.dll" target="lib"></file>
+    <file src="bin\Release\LogentriesCore.dll" target="lib"></file>
   </files>
 </package>
 
