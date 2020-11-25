@@ -14,8 +14,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PackOnBuild>true</PackOnBuild>
-    <PackageId>logentries.log4net</PackageId>
-    <PackageVersion>2.8.1</PackageVersion>
+    <PackageId>logentries.nlog</PackageId>
+    <PackageVersion>2.8.3</PackageVersion>
     <Authors>Logentries</Authors>
     <Copyright>Copyright © 2020</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
