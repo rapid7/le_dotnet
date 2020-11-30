@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LogentriesLog4net")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Logentries logging library for log4net support")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Logentries")]
 [assembly: AssemblyProduct("LogentriesLog4net")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
