@@ -17,16 +17,10 @@ namespace LogentriesCore.Net
         // Port number for TLS encrypted token logging on Logentries API server
         protected const int LeApiTokenTlsPort = 20000;
 
-        // Port number for HTTP PUT logging on Logentries API server.
-        protected const int LeApiHttpPort = 80;
-
-        // Port number for SSL HTTP PUT logging on Logentries API server.
-        protected const int LeApiHttpsPort = 443;
-
         // Creates LeClient instance. If do not define useServerUrl and/or useOverrideProt during call
         // LeClient will be configured to work with data.logentries.com server; otherwise - with
         // defined server on defined port.
-        public LeClient(bool useHttpPut, bool useSsl, bool useDataHub, String serverAddr, int port)
+        public LeClient(bool useSsl, bool useDataHub, String serverAddr, int port)
         {
 
             // Override port number and server address to send logs to DataHub instance.
@@ -41,9 +35,9 @@ namespace LogentriesCore.Net
                 m_UseSsl = useSsl;
 
                 if (!m_UseSsl)
-                    m_TcpPort = useHttpPut ? LeApiHttpPort : LeApiTokenPort;
+                    m_TcpPort = LeApiTokenPort;
                 else
-                    m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
+                    m_TcpPort = LeApiTokenTlsPort;
             }
         }
 
