@@ -58,13 +58,6 @@ namespace NLog.Targets
             set { logentriesAsync.setToken(value); }
         }
 
-        /** HTTP PUT Flag */
-        public bool HttpPut
-        {
-            get { return logentriesAsync.getUseHttpPut(); }
-            set { logentriesAsync.setUseHttpPut(value); }
-        }
-
         /** SSL/TLS parameter flag */
         public bool Ssl
         {

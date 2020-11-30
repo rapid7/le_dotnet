@@ -86,34 +86,6 @@ namespace log4net.Appender
         }
 
 
-        /* Set to true to use HTTP PUT logging. */
-        public bool UseHttpPut
-        {
-            get
-            {
-                return logentriesAsync.getUseHttpPut();
-            }
-            set
-            {
-                logentriesAsync.setUseHttpPut(value);
-            }
-        }
-
-        /* This property exists for backward compatibility with older configuration XML. */
-        [Obsolete("Use the UseHttpPut property instead.")]
-        public bool HttpPut
-        {
-            get
-            {
-                return logentriesAsync.getUseHttpPut();
-            }
-            set
-            {
-                logentriesAsync.setUseHttpPut(value);
-            }
-        }
-
-
         /* Set to true to use SSL with HTTP PUT logging. */
         public bool UseSsl
         {
