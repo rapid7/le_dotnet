@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <ProjectGuid>{CF8A9166-3B7D-4D4C-82CB-6C98C68DB110}</ProjectGuid>
-    <TargetFramework>net40</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>logentries.log4net</PackageId>
     <PackageVersion>2.8.3</PackageVersion>
@@ -33,11 +33,7 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="log4net" Version="2.0.12" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogentriesCore\LogentriesCore.csproj" />

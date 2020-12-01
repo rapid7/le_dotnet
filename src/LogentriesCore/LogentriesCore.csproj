@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <ProjectGuid>{90D6E9FC-7B88-4E1B-B018-8FA742274558}</ProjectGuid>
-    <TargetFramework>net40</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>logentries.core</PackageId>
     <PackageVersion>2.8.3</PackageVersion>
     <Authors>Logentries</Authors>
@@ -34,10 +34,5 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAzure.ConfigurationManager" Version="3.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 </Project>

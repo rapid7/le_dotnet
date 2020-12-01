@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <ProjectGuid>{9DC31DE3-79FF-47A8-96B4-6BA18F6BB1CB}</ProjectGuid>
-    <TargetFramework>net40</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>logentries.nlog</PackageId>
     <PackageVersion>2.8.3</PackageVersion>
@@ -33,11 +33,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="3.2.1" />
+    <PackageReference Include="NLog" Version="4.7.5" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogentriesCore\LogentriesCore.csproj" />
