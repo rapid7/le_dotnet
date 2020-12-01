@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <ProjectGuid>{90D6E9FC-7B88-4E1B-B018-8FA742274558}</ProjectGuid>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net4.0</TargetFrameworks>
     <PackageId>logentries.core</PackageId>
     <PackageVersion>2.8.3</PackageVersion>
     <Authors>Logentries</Authors>
@@ -32,7 +32,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net4.0' ">
     <PackageReference Include="Microsoft.WindowsAzure.ConfigurationManager" Version="3.1.0" />
   </ItemGroup>
 </Project>
