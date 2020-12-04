@@ -5,7 +5,7 @@ namespace LogentriesDotNet
 {
 	public class LogentriesLoggerOptionsSetup : ConfigureFromConfigurationOptions<LogentriesLoggerOptions>
 	{
-		public LogentriesLoggerOptionsSetup(IConfiguration config) : base(config)
+		public LogentriesLoggerOptionsSetup(ILoggerProviderConfiguration<LogentriesLoggerProvider> providerConfiguration) : base(providerConfiguration.Configuration)
 		{
 		}
 	}

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace LogentriesDotNet
 {
+	[ProviderAlias("Logentries")]
 	public class LogentriesLoggerProvider : ILoggerProvider
 	{
 		public LogentriesLoggerProvider(IOptions<LogentriesLoggerOptions> options) : this(options.Value)
