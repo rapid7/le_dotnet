@@ -16,7 +16,9 @@ namespace LogentriesCore.Net
 {
     using System.Security;
     using System.Collections.Concurrent;
+#if NET4_0
     using Microsoft.Azure;
+#endif
     
     public class AsyncLogger
     {
@@ -474,6 +476,7 @@ namespace LogentriesCore.Net
          */
         private string retrieveSetting(String name)
         {
+#if NET4_0
             string cloudconfig = null;
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
@@ -498,6 +501,7 @@ namespace LogentriesCore.Net
                 WriteDebugMessages(String.Format("Found App Settings for {0}", name));
                 return appconfig;
             }
+#endif
 
             var envconfig = Environment.GetEnvironmentVariable(name);
             if (!String.IsNullOrWhiteSpace(envconfig))
