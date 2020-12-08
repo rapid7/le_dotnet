@@ -12,10 +12,10 @@ namespace LogentriesCore.Net
         protected const String LeIngestionHost = "data.logentries.com";
 
         // Port number for token logging on Logentries API server.
-        protected const int LeApiTokenPort = 10000;
+        protected const int LeApiTokenPort = 80;
 
         // Port number for TLS encrypted token logging on Logentries API server
-        protected const int LeApiTokenTlsPort = 20000;
+        protected const int LeApiTokenTlsPort = 443;
 
         // Creates LeClient instance. If do not define useServerUrl and/or useOverrideProt during call
         // LeClient will be configured to work with data.logentries.com server; otherwise - with
