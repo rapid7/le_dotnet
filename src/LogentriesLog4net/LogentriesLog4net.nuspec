@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>logentries.log4net</id>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <title>logentries.log4net</title>
     <authors>Logentries</authors>
     <owners>Logentries</owners>
@@ -10,7 +10,7 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/rapid7/le_dotnet/</projectUrl>
     <description>Logentries logging library for log4net support.</description>
-    <releaseNotes>Correct ingestion port used</releaseNotes>
+    <releaseNotes>Remove useless variable</releaseNotes>
     <copyright>Copyright © 2020</copyright>
     <tags>logentries logging dotnet log4net</tags>
   </metadata>
