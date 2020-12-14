@@ -1,5 +1,8 @@
-# Using InsightOps?
-Please use our [updated library](https://github.com/rapid7/r7insight_dotnet) which supports specifying the region to send your log data to.
+# DEPRECATED
+
+This library is deprecated in favour of the [updated Rapid7 library](https://github.com/rapid7/r7insight_dotnet).
+
+No future work will be done on this library.
 
 # Logging To Logentries.
 
@@ -38,3 +41,4 @@ Visit [Log4Net](https://docs.logentries.com/docs/log4net)
 ## Serilog
 
 Visit [Serilog](https://docs.logentries.com/docs/net-serilog)
+
