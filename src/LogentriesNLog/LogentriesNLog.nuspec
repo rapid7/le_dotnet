@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>logentries.nlog</id>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <title>logentries.nlog</title>
     <authors>Logentries</authors>
     <owners>Logentries</owners>
@@ -10,7 +10,7 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/rapid7/le_dotnet/</projectUrl>
     <description>Logentries logging library support for NLog</description>
-    <releaseNotes>Remove legacy ingestion option</releaseNotes>
+    <releaseNotes>Correct ingestion port used</releaseNotes>
     <copyright>Copyright © 2020</copyright>
     <tags>logentries logging dotnet nlog</tags>
   </metadata>
