@@ -14,16 +14,12 @@ using System.Text.RegularExpressions;
 
 namespace LogentriesCore.Net
 {
-    using System.Security;
     using System.Collections.Concurrent;
     using Microsoft.Azure;
 
     public class AsyncLogger
     {
         #region Constants
-
-        // Current version number.
-        protected const String Version = "2.6.7";
 
         // Size of the internal event queue.
         protected const int QueueSize = 32768;
