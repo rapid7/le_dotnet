@@ -464,6 +464,11 @@ namespace LogentriesCore.Net
             return true;
         }
 
+        public static bool isRunningOnMono()
+        {
+            return Type.GetType("Mono.Runtime") != null;
+        }
+
         /* Retrieve configuration settings
          * Will check Enviroment Variable as the last fall back.
          *
@@ -471,7 +476,7 @@ namespace LogentriesCore.Net
         private string retrieveSetting(String name)
         {
             string cloudconfig = null;
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (isRunningOnMono())
             {
                 cloudconfig = ConfigurationManager.AppSettings.Get(name);
             }
@@ -575,7 +580,7 @@ namespace LogentriesCore.Net
 
         #endregion
 
-        #region publicMethods
+        #region Public Methods
 
         public virtual void AddLine(string line)
         {
