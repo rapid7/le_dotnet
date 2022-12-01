@@ -559,7 +559,7 @@ namespace LogentriesCore.Net
             foreach (var msg in messages)
             {
 
-                Trace.WriteLine(message);
+                Trace.WriteLine(msg);
             }
         }
 
